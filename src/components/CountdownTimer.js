@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-const BIRTHDAY = new Date('2026-06-22T00:00:00').getTime();
+const PRIMARY_BIRTHDAY = new Date('2026-06-22T00:00:00').getTime();
 
 function pad(n) {
   return String(n).padStart(2, '0');
@@ -9,10 +9,32 @@ function pad(n) {
 
 export default function CountdownTimer() {
   const [time, setTime] = useState({ days: '00', hours: '00', mins: '00', secs: '00' });
+  const [isBirthday, setIsBirthday] = useState(false);
 
   useEffect(() => {
     function tick() {
-      const diff = Math.max(BIRTHDAY - Date.now(), 0);
+      const now = Date.now();
+      let target = PRIMARY_BIRTHDAY;
+      let birthdayPassed = false;
+
+      // If the primary countdown has finished
+      if (now >= PRIMARY_BIRTHDAY) {
+        birthdayPassed = true;
+        
+        // Calculate the next upcoming birthday dynamically
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        let nextBirthday = new Date(`${currentYear}-06-22T00:00:00`).getTime();
+        
+        if (now >= nextBirthday) {
+          nextBirthday = new Date(`${currentYear + 1}-06-22T00:00:00`).getTime();
+        }
+        target = nextBirthday;
+      }
+
+      setIsBirthday(birthdayPassed);
+
+      const diff = Math.max(target - now, 0);
       setTime({
         days:  pad(Math.floor(diff / 86400000)),
         hours: pad(Math.floor((diff % 86400000) / 3600000)),
@@ -20,6 +42,7 @@ export default function CountdownTimer() {
         secs:  pad(Math.floor((diff % 60000) / 1000)),
       });
     }
+    
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
@@ -47,12 +70,22 @@ export default function CountdownTimer() {
         boxShadow: '0 24px 70px rgba(0,0,0,0.4)',
       }}
     >
+      {/* Birthday Message (Only shows when the first countdown completes) */}
+      {isBirthday && (
+        <div className="mb-8 p-5 rounded-2xl bg-white/5 border border-white/10 text-center shadow-inner">
+          <p className="font-serif text-[22px] text-white/95 mb-3 tracking-wide">Happy Birthday, Komal. 🎉</p>
+          <p className="text-white/70 text-[15px] leading-relaxed">
+            I wish you lots of happiness, good health, and success in life. Have a wonderful day. Take care.
+          </p>
+        </div>
+      )}
+
       {/* Label */}
       <p
-        className="font-script text-center"
+        className="font-script text-center transition-all duration-1000"
         style={{ fontSize: '28px', color: '#d8b4a0', marginBottom: '24px' }}
       >
-        birthday countdown
+        {isBirthday ? 'next birthday countdown' : 'birthday countdown'}
       </p>
 
       {/* Grid of 4 units */}

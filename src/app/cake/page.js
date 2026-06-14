@@ -31,10 +31,10 @@ export default function CakePage() {
   useEffect(() => {
     if (isCut) {
       setShowToast(false);
-      // After cake is cut and text is revealed, wait 3.5 seconds then seamlessly redirect to letter page
+      // After cake is cut and text is revealed, wait 7 seconds then seamlessly redirect to letter page
       const timer = setTimeout(() => {
         router.push('/letter');
-      }, 3500);
+      }, 7000);
       return () => clearTimeout(timer);
     }
   }, [isCut, router]);

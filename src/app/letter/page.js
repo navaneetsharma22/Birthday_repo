@@ -91,7 +91,7 @@ export default function LetterPage() {
         background: 'radial-gradient(circle at 50% 30%, #0d0d0d 0%, #020202 70%, #000000 100%)' 
       }}
     >
-      <Toast message="Hey bithday GIrl Please Open the letter" isVisible={showToast} onClose={() => setShowToast(false)} />
+      <Toast message="Hey Birthday Girl, Please Open the letter" isVisible={showToast} onClose={() => setShowToast(false)} />
       {/* Subtle warm glow behind the envelope */}
       <div 
         className="absolute left-[30%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] pointer-events-none rounded-full"

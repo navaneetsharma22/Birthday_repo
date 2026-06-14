@@ -1,21 +1,21 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import CountdownTimer from '@/components/CountdownTimer';
+import Toast from '@/components/Toast';
 
 export default function HomePage() {
   const container = useRef(null);
-  const router = useRouter();
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push('/cake');
+      setShowToast(true);
     }, 5000);
     return () => clearTimeout(timer);
-  }, [router]);
+  }, []);
 
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -67,6 +67,7 @@ export default function HomePage() {
         backgroundColor: '#050505',
       }}
     >
+      <Toast message="💖 Hey Birthday Girl, your cake is waiting! Click to cut it. 🎂" isVisible={showToast} onClose={() => setShowToast(false)} />
       {/* Dark gradient overlay to make text readable on the left, while showing the image on the right */}
       <div
         className="absolute inset-0 pointer-events-none"
