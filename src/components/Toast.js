@@ -2,38 +2,64 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
-export default function Toast({ message, isVisible, onClose }) {
+export default function Toast({ 
+  message, 
+  isVisible, 
+  onClose,
+  position = 'top-right',
+  rounded = false,
+  size = 'large',
+  duration = 3000
+}) {
   const toastRef = useRef(null);
 
   useEffect(() => {
     if (isVisible) {
       gsap.fromTo(toastRef.current, 
-        { y: -100, opacity: 0, scale: 0.9 },
-        { y: 30, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.5)' }
+        { y: -50, opacity: 0, scale: 0.9 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.5)' }
       );
 
-      // Auto close the toast after 4 seconds
+      // Auto close the toast after specified duration
       const timer = setTimeout(() => {
         if (onClose) onClose();
-      }, 4000);
+      }, duration);
 
       return () => clearTimeout(timer);
     } else if (toastRef.current && toastRef.current.style.opacity !== "0" && toastRef.current.style.opacity !== "") {
       gsap.to(toastRef.current, {
-        y: -100, opacity: 0, scale: 0.9, duration: 0.4, ease: 'power2.in'
+        y: -50, opacity: 0, scale: 0.9, duration: 0.4, ease: 'power2.in'
       });
     }
-  }, [isVisible, onClose]);
+  }, [isVisible, onClose, duration]);
+
+  const positionClass = position === 'top-right' 
+    ? 'fixed top-[120px] right-8 z-[100] pointer-events-none'
+    : 'fixed top-[30px] left-1/2 -translate-x-1/2 z-[100] pointer-events-none';
+
+  const containerClass = `bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.6)] flex items-center gap-5 ${
+    rounded ? 'rounded-full' : 'rounded-xl'
+  } ${
+    size === 'large' ? 'px-16 py-12 min-h-[140px] min-w-[500px] justify-center' : 'px-7 py-4'
+  }`;
+
+  const textClass = `font-serif tracking-wide text-white/95 ${
+    size === 'large' ? 'text-[24px]' : 'text-[18px]'
+  }`;
+
+  const iconClass = `animate-pulse ${
+    size === 'large' ? 'text-3xl' : 'text-xl'
+  }`;
 
   return (
     <div
       ref={toastRef}
-      className="fixed top-0 left-1/2 -translate-x-1/2 z-[100] pointer-events-none"
+      className={positionClass}
       style={{ opacity: 0, transform: 'translateY(-100px)' }}
     >
-      <div className="bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.6)] px-7 py-4 rounded-full flex items-center gap-4">
-        <span className="text-xl animate-pulse">✨</span>
-        <p className="font-serif text-[18px] text-white/95 tracking-wide">{message}</p>
+      <div className={containerClass}>
+        <span className={iconClass}>✨</span>
+        <p className={textClass}>{message}</p>
       </div>
     </div>
   );
