@@ -1,14 +1,21 @@
 'use client';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import CountdownTimer from '@/components/CountdownTimer';
-import { useAutoNavigate } from '@/hooks/useAutoNavigate';
 
 export default function HomePage() {
-  useAutoNavigate('/cake');
   const container = useRef(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.push('/cake');
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [router]);
 
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -114,7 +121,7 @@ export default function HomePage() {
             className="font-serif font-semibold gsap-title"
             style={{
               fontSize: 'clamp(62px, 9vw, 128px)',
-              lineHeight: 0.86,
+              lineHeight: 1,
               letterSpacing: '-3px',
               color: 'rgba(255,255,255,0.95)',
             }}
@@ -127,11 +134,11 @@ export default function HomePage() {
                 fontStyle: 'italic', 
                 display: 'block', 
                 fontSize: 'clamp(72px, 10vw, 142px)', 
-                marginTop: '-8px',
+                marginTop: '4px',
                 fontWeight: 500
               }}
             >
-              My Love
+              Dear Komal
             </span>
           </h1>
 

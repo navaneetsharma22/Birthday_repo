@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { useAutoNavigate } from '@/hooks/useAutoNavigate';
+import Link from 'next/link';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,7 +19,6 @@ const MEMORIES = [
 ];
 
 export default function MemoriesPage() {
-  useAutoNavigate('/final');
   const container = useRef(null);
 
   useGSAP(() => {
@@ -104,6 +103,16 @@ export default function MemoriesPage() {
           ))
         )}
       </section>
+
+      <div className="w-full flex justify-center pb-20 relative z-20">
+        <Link
+          href="/final"
+          className="group flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/10 rounded-full backdrop-blur-xl hover:bg-white/10 hover:border-white/20 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] transition-all duration-300 font-serif text-[18px] text-white/90"
+        >
+          Next Chapter
+          <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
+        </Link>
+      </div>
     </main>
   );
 }

@@ -2,7 +2,8 @@
 import { useState, useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { useAutoNavigate } from '@/hooks/useAutoNavigate';
+import { useRouter } from 'next/navigation';
+import Toast from '@/components/Toast';
 
 const LETTER = `You are one of those rare people who make the world feel gentler just by being in it. Your presence brings a kind of warmth, peace, and beauty that words can never fully explain.
 
@@ -13,11 +14,34 @@ I hope this year gives you soft mornings, peaceful nights, unexpected smiles, an
 Happy Birthday Babuuuuuuuuuuu! You are special in ways you may never fully realize, and you deserve magic, love, and endless happiness in every chapter of your life. I Love You 🫶`;
 
 export default function LetterPage() {
-  useAutoNavigate('/memories');
   const container = useRef(null);
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [typed, setTyped] = useState('');
   const [started, setStarted] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [isTyped, setIsTyped] = useState(false);
+
+  useEffect(() => {
+    if (!open) {
+      const timer = setTimeout(() => {
+        setShowToast(true);
+      }, 5000);
+      return () => clearTimeout(timer);
+    } else {
+      setShowToast(false);
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (isTyped) {
+      // Auto redirect to memories 5 seconds after typing is complete
+      const timer = setTimeout(() => {
+        router.push('/memories');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [isTyped, router]);
 
   useGSAP(() => {
     gsap.from('.gsap-envelope', {
@@ -54,6 +78,7 @@ export default function LetterPage() {
       i += 1;
       if (i > LETTER.length) {
         clearInterval(id);
+        setIsTyped(true);
       }
     }, 35);
   }
@@ -66,8 +91,7 @@ export default function LetterPage() {
         background: 'radial-gradient(circle at 50% 30%, #0d0d0d 0%, #020202 70%, #000000 100%)' 
       }}
     >
-
-      
+      <Toast message="Hey bithday GIrl Please Open the letter" isVisible={showToast} onClose={() => setShowToast(false)} />
       {/* Subtle warm glow behind the envelope */}
       <div 
         className="absolute left-[30%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] pointer-events-none rounded-full"

@@ -3,15 +3,15 @@ import { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { useAutoNavigate } from '@/hooks/useAutoNavigate';
 import Cake from '@/components/Cake';
+import Toast from '@/components/Toast';
 
 export default function CakePage() {
-  useAutoNavigate('/letter');
   const container = useRef(null);
   const router = useRouter();
   const [isCut, setIsCut] = useState(false);
   const [flavor, setFlavor] = useState('vanilla');
+  const [showToast, setShowToast] = useState(false);
   
   const FLAVORS = [
     { id: 'vanilla', label: 'Vanilla Dream', color: '#e8cfc1' },
@@ -20,10 +20,20 @@ export default function CakePage() {
   ];
 
   useEffect(() => {
-    if (isCut) {
-      // After cake is cut and text is revealed, wait 3.5 seconds then seamlessly redirect to final page
+    if (!isCut) {
       const timer = setTimeout(() => {
-        router.push('/final');
+        setShowToast(true);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [isCut]);
+
+  useEffect(() => {
+    if (isCut) {
+      setShowToast(false);
+      // After cake is cut and text is revealed, wait 3.5 seconds then seamlessly redirect to letter page
+      const timer = setTimeout(() => {
+        router.push('/letter');
       }, 3500);
       return () => clearTimeout(timer);
     }
@@ -50,8 +60,7 @@ export default function CakePage() {
         background: 'radial-gradient(circle at 50% 30%, #0d0d0d 0%, #020202 70%, #000000 100%)' 
       }}
     >
-
-      
+      <Toast message="Hey Gorgeous Please cut the cake" isVisible={showToast} onClose={() => setShowToast(false)} />
       {/* Subtle warm glow behind the cake */}
       <div 
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] pointer-events-none rounded-full"
