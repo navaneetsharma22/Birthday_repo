@@ -165,18 +165,6 @@ export default function Cake({ onCutComplete, flavor = 'vanilla' }) {
     <div ref={container} className="cake-section relative flex flex-col items-center justify-center min-h-[62vh] overflow-visible">
       <div className="cake-glow" />
 
-      <div
-        className="relative z-[8] my-5 mb-7 max-w-[620px] border border-white/30 rounded-full text-white/90 text-sm transition-opacity duration-500"
-        style={{ 
-          background: 'rgba(255,255,255,0.13)', 
-          backdropFilter: 'blur(14px)',
-          padding: '14px 22px',
-          opacity: stage === 'idle' ? 0 : 1
-        }}
-      >
-        {stage !== 'idle' ? stageText : '🥳'}
-      </div>
-
       <div ref={cakeWrapper}>
         <div className={cakeClass} id="birthdayCake" aria-label="birthday cake cutting animation">
           {/* Knife */}

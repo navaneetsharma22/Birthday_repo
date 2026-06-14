@@ -157,7 +157,7 @@ export default function HomePage() {
           >
             Today is wrapped in blush light, tiny stars, warm memories,
             <br />
-            and all the love you deserve.
+            and filled with warm wishes, beautiful moments, and countless reasons to smile.
           </p>
 
           {/* CTA Buttons */}
