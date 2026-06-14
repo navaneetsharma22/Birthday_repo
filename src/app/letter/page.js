@@ -4,26 +4,14 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { useRouter } from 'next/navigation';
 import Toast from '@/components/Toast';
-import FloatingParticles from '@/components/FloatingParticles';
-import AudioPlayer from '@/components/AudioPlayer';
 
-const LETTER = `Happy Birthday! 🎉
+const LETTER = `You are one of those rare people who make the world feel gentler just by being in it. Your presence brings a kind of warmth, peace, and beauty that words can never fully explain.
 
-I hope this special day brings you endless happiness, beautiful moments, and countless reasons to smile.
+On your birthday, I just want you to know how deeply you are loved, not just today, but every single day. You deserve happiness that feels real, dreams that slowly turn into reality, and moments so beautiful that your heart wants to keep them forever.
 
-May this new year of your life be filled with good health, confidence, success, and wonderful opportunities. I hope you keep chasing your dreams and creating memories that make your heart truly happy.
+I hope this year gives you soft mornings, peaceful nights, unexpected smiles, and every little thing your soul has been waiting for.
 
-Thank you for being a kind and wonderful person. May life always surround you with positivity, supportive people, and moments that remind you how special every new day can be.
-
-I hope this birthday becomes the beginning of another beautiful chapter filled with laughter, growth, adventures, and everything you've been wishing for.
-
-Take time to enjoy today, celebrate yourself, and make memories that last forever.
-
-Happy Birthday, Komal. ✨
-
-May this year bring you closer to everything that makes your heart happy. 🌸
-
-Take care and have an amazing year ahead.`;
+Happy Birthday Babuuuuuuuuuuu! You are special in ways you may never fully realize, and you deserve magic, love, and endless happiness in every chapter of your life. I Love You 🫶`;
 
 export default function LetterPage() {
   const container = useRef(null);
@@ -57,27 +45,27 @@ export default function LetterPage() {
 
   useGSAP(() => {
     gsap.from('.gsap-envelope', {
-      y: 30,
+      x: -50,
       opacity: 0,
-      duration: 1.4,
+      duration: 1,
       ease: 'power3.out'
     });
     
     gsap.from('.gsap-paper', {
-      y: 40,
+      x: 50,
       opacity: 0,
-      duration: 1.4,
-      delay: 0.3,
+      duration: 1,
+      delay: 0.2,
       ease: 'power3.out'
     });
   }, { scope: container });
 
   function openEnvelope() {
     if (!open) {
-      // Smoother opening animation and gentle bounce
+      // Small bounce on open
       gsap.fromTo('.gsap-envelope', 
-        { scale: 0.97 },
-        { scale: 1, duration: 1.2, ease: 'elastic.out(1.2, 0.4)' }
+        { scale: 0.95 },
+        { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.5)' }
       );
     }
     setOpen(true);
@@ -103,8 +91,6 @@ export default function LetterPage() {
         background: 'radial-gradient(circle at 50% 30%, #0d0d0d 0%, #020202 70%, #000000 100%)' 
       }}
     >
-      <FloatingParticles />
-      <AudioPlayer />
       <Toast message="Hey Birthday Girl, Please Open the letter" isVisible={showToast} onClose={() => setShowToast(false)} />
       {/* Subtle warm glow behind the envelope */}
       <div 
@@ -121,7 +107,7 @@ export default function LetterPage() {
       >
         {/* Envelope */}
         <section
-          className={`gsap-envelope envelope${open ? ' open' : ''} transition-all duration-700 hover:drop-shadow-[0_0_25px_rgba(216,180,160,0.3)] cursor-pointer`}
+          className={`gsap-envelope envelope${open ? ' open' : ''}`}
           onClick={openEnvelope}
           role="button"
           tabIndex={0}
@@ -136,22 +122,22 @@ export default function LetterPage() {
 
         {/* Letter Paper */}
         <section
-          className="gsap-paper min-h-[600px] p-[50px] md:p-[60px] rounded-[34px] w-full max-w-[700px] mx-auto transition-all duration-700"
+          className="gsap-paper min-h-[600px] p-[50px] rounded-[34px] w-full max-w-[700px] mx-auto"
           style={{ 
-            background: 'rgba(255, 255, 255, 0.04)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(30px)',
-            WebkitBackdropFilter: 'blur(30px)',
-            boxShadow: '0 30px 80px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.03)',
+            background: 'rgba(255, 255, 255, 0.03)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.02)',
           }}
         >
-          <p className="font-script text-[#d8b4a0] text-[44px] mb-8 text-center drop-shadow-sm">Dear Komal,</p>
-          <p className="font-sans text-[16.5px] leading-[2.2] whitespace-pre-wrap text-white/85 tracking-[0.015em] text-justify drop-shadow-sm">{typed}</p>
+          <p className="font-script text-[#d8b4a0] text-[40px] mb-8 text-center">Dear Komal,</p>
+          <p className="text-[17px] leading-[2] whitespace-pre-wrap text-white/80 font-light tracking-wide text-justify">{typed}</p>
         </section>
       </div>
 
-      <footer className="relative z-10 py-10 mt-auto text-center text-white/40 text-sm tracking-[0.1em] uppercase">
-        Written with warm wishes for your special day. ✨
+      <footer className="relative z-10 py-10 mt-auto text-center text-white/50 text-sm tracking-wide">
+        Written with all the love words could hold ✦
       </footer>
     </main>
   );
