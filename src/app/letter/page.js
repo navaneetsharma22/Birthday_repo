@@ -5,19 +5,24 @@ import { useGSAP } from '@gsap/react';
 import { useRouter } from 'next/navigation';
 import Toast from '@/components/Toast';
 
-const LETTER = `You are one of those rare people who make the world feel gentler just by being in it. Your presence brings a kind of warmth, peace, and beauty that words can never fully explain.
+const PARAGRAPHS = [
+  { text: "Happy Birthday! 🎉", type: "emphasis" },
+  { text: "I hope your special day is filled with smiles, laughter, and beautiful moments that make your heart happy.", type: "normal" },
+  { text: "May today bring you happiness, wonderful surprises, and memories you'll always cherish. I hope you continue to grow, achieve your dreams, and find joy in every little moment life offers.", type: "normal" },
+  { text: "May your birthday be surrounded by kindness, positivity, and the people who care about you. Keep shining, believing in yourself, and making the world a brighter place with your smile.", type: "normal" },
+  { text: "Take time to enjoy this beautiful day, celebrate yourself, and create memories that will stay with you for years to come.", type: "normal" },
+  { text: "Happy Birthday, Komal. ✨", type: "emphasis" },
+  { text: "May this birthday bring you endless happiness, beautiful adventures, and countless reasons to smile. 🌸", type: "emphasis" },
+  { text: "Wishing you a wonderful day and a year filled with success, peace, and beautiful moments.", type: "blessing" }
+];
 
-On your birthday, I just want you to know how deeply you are loved, not just today, but every single day. You deserve happiness that feels real, dreams that slowly turn into reality, and moments so beautiful that your heart wants to keep them forever.
-
-I hope this year gives you soft mornings, peaceful nights, unexpected smiles, and every little thing your soul has been waiting for.
-
-Happy Birthday Babuuuuuuuuuuu! You are special in ways you may never fully realize, and you deserve magic, love, and endless happiness in every chapter of your life. I Love You 🫶`;
+const totalLength = PARAGRAPHS.reduce((sum, p) => sum + p.text.length, 0);
 
 export default function LetterPage() {
   const container = useRef(null);
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [typed, setTyped] = useState('');
+  const [typedLength, setTypedLength] = useState(0);
   const [started, setStarted] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [isTyped, setIsTyped] = useState(false);
@@ -74,14 +79,55 @@ export default function LetterPage() {
 
     let i = 0;
     const id = setInterval(() => {
-      setTyped((prev) => prev + (LETTER[i] || ''));
       i += 1;
-      if (i > LETTER.length) {
+      setTypedLength(i);
+      if (i >= totalLength) {
         clearInterval(id);
         setIsTyped(true);
       }
-    }, 35);
+    }, 20);
   }
+
+  const renderParagraphs = () => {
+    let currentSum = 0;
+    return PARAGRAPHS.map((p, idx) => {
+      const charsToShow = Math.max(0, Math.min(p.text.length, typedLength - currentSum));
+      currentSum += p.text.length;
+      
+      if (charsToShow === 0) return null;
+      
+      const displayText = p.text.slice(0, charsToShow);
+      
+      let fontWeightClass = "font-light text-white/80";
+      let isItalic = false;
+      
+      if (p.type === "emphasis") {
+        fontWeightClass = "font-semibold text-white";
+      } else if (p.type === "blessing") {
+        isItalic = true;
+      }
+      
+      // Spacing:
+      // - 16px below "Happy Birthday! 🎉" (idx == 0)
+      // - 20px between other paragraphs (idx > 0)
+      const marginBottom = idx === 0 ? '16px' : '20px';
+      
+      return (
+        <p
+          key={idx}
+          className={`${fontWeightClass} ${isItalic ? 'italic' : ''} text-left select-none`}
+          style={{
+            fontSize: '18px',
+            lineHeight: '1.8',
+            letterSpacing: '0.2px',
+            marginBottom: marginBottom,
+          }}
+        >
+          {displayText}
+        </p>
+      );
+    });
+  };
 
   return (
     <main
@@ -103,7 +149,7 @@ export default function LetterPage() {
 
       <div
         className="relative z-10 grid items-center w-full flex-1"
-        style={{ gridTemplateColumns: '1fr 1.1fr', padding: '160px 9% 40px', gap: '80px' }}
+        style={{ gridTemplateColumns: '1fr 1.35fr', padding: '160px 9% 40px', gap: '80px' }}
       >
         {/* Envelope */}
         <section
@@ -122,8 +168,9 @@ export default function LetterPage() {
 
         {/* Letter Paper */}
         <section
-          className="gsap-paper min-h-[600px] p-[50px] rounded-[34px] w-full max-w-[700px] mx-auto"
+          className="gsap-paper min-h-[730px] rounded-[34px] w-full max-w-[850px] mx-auto"
           style={{ 
+            padding: '32px 40px',
             background: 'rgba(255, 255, 255, 0.03)',
             border: '1px solid rgba(255, 255, 255, 0.08)',
             backdropFilter: 'blur(24px)',
@@ -131,8 +178,15 @@ export default function LetterPage() {
             boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.02)',
           }}
         >
-          <p className="font-script text-[#d8b4a0] text-[40px] mb-8 text-center">Dear Komal,</p>
-          <p className="text-[17px] leading-[2] whitespace-pre-wrap text-white/80 font-light tracking-wide text-justify">{typed}</p>
+          <p 
+            className="font-script text-[#d8b4a0] text-[40px] text-center"
+            style={{ marginBottom: '24px' }}
+          >
+            Dear Komal,
+          </p>
+          <div className="mx-auto" style={{ width: '90%' }}>
+            {renderParagraphs()}
+          </div>
         </section>
       </div>
 

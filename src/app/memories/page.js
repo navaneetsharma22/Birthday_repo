@@ -12,8 +12,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 // ---------------------------------------------------------
 // ADD YOUR IMAGES AND VIDEOS HERE!
-// I've added some beautiful placeholders to show you how the 
-// new scrapbook polaroids and lightboxes look!
 // ---------------------------------------------------------
 const MEMORIES = [
   { 
@@ -60,38 +58,17 @@ export default function MemoriesPage() {
       ease: 'power3.out',
     });
 
-    // Polaroid parallax and fade
-    const cards = gsap.utils.toArray('.polaroid-card');
-    
-    cards.forEach((card, i) => {
-      // Different rotation and offset for that "scattered scrapbook" feel
-      const rotation = i % 2 === 0 ? gsap.utils.random(-4, -1) : gsap.utils.random(1, 4);
-      const yOffset = i % 2 !== 0 ? 40 : 0;
-      
-      gsap.set(card, { rotation: rotation, y: yOffset + 100, opacity: 0 });
-
-      gsap.to(card, {
-        y: yOffset,
-        opacity: 1,
-        duration: 1,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 85%',
-        }
-      });
-      
-      // Subtle floating parallax on scroll
-      gsap.to(card, {
-        y: yOffset - 50,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: card,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1
-        }
-      });
+    // Elegant uniform fade-up stagger for the cards
+    gsap.from('.gallery-card', {
+      y: 50,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.1,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.gallery-grid',
+        start: 'top 85%',
+      }
     });
   }, { scope: container });
 
@@ -116,22 +93,28 @@ export default function MemoriesPage() {
         }}
       />
 
-      <header className="gsap-header relative z-10 text-center" style={{ padding: '160px 8% 80px' }}>
-        <p className="font-script text-[#d8b4a0] text-3xl md:text-4xl mb-4 opacity-90">A collection of beautiful moments</p>
+      <header className="gsap-header relative z-10 text-center" style={{ padding: '160px 8% 40px' }}>
+        <p className="font-script text-[#d8b4a0] text-3xl md:text-4xl mb-4 opacity-90">
+          A few beautiful moments to celebrate your special day.
+        </p>
         <h1
           className="font-serif font-semibold leading-[0.9] tracking-[-2px] text-white/95 drop-shadow-lg"
           style={{ fontSize: 'clamp(56px, 10vw, 120px)' }}
         >
           Memory Lane
         </h1>
-        <p className="max-w-[500px] mx-auto mt-8 font-sans text-[15px] leading-[1.8] text-white/60 tracking-wide">
-          Every picture tells a story. Click on any of these moments to revisit the memories we've created together.
-        </p>
       </header>
 
-      {/* Scrapbook Grid */}
-      <section className="relative z-10 max-w-[1100px] mx-auto px-6 md:px-12 pb-32">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20">
+      {/* Premium Memory Gallery Grid */}
+      <section 
+        className="relative z-10 mx-auto"
+        style={{ 
+          maxWidth: '1400px', 
+          margin: '0 auto', 
+          padding: '80px 40px' 
+        }}
+      >
+        <div className="gallery-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] justify-items-center justify-center">
           {MEMORIES.length === 0 ? (
             <div className="col-span-full w-full py-20 text-center text-white/40 border border-dashed border-white/20 rounded-[32px] backdrop-blur-sm bg-white/5">
               <p className="font-serif text-xl">Please add your images to the MEMORIES array at the top of the code!</p>
@@ -141,30 +124,25 @@ export default function MemoriesPage() {
               <div 
                 key={idx}
                 onClick={() => setActiveMemory(item)}
-                className="polaroid-card relative cursor-pointer group break-inside-avoid"
+                className="gallery-card relative cursor-pointer group rounded-[24px] bg-white/3 border border-white/8 backdrop-blur-md transition-all duration-500 hover:scale-[1.04] hover:bg-white/8 hover:border-[#d8b4a0]/40 hover:shadow-[0_30px_60px_rgba(216,180,160,0.15)] w-full max-w-[320px] h-[420px] overflow-hidden"
               >
-                {/* Polaroid Frame */}
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-4 pb-8 md:p-5 md:pb-12 rounded-[16px] shadow-[0_20px_50px_rgba(0,0,0,0.6)] transition-all duration-500 hover:-translate-y-4 hover:shadow-[0_40px_80px_rgba(216,180,160,0.12)] hover:border-[#d8b4a0]/30 hover:bg-white/10">
-                  
-                  {/* Tape piece detail */}
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-white/10 backdrop-blur-md border border-white/5 rotate-[-2deg] shadow-sm z-20 mix-blend-screen" />
-
-                  <div className="relative w-full aspect-[4/5] overflow-hidden rounded-[8px] bg-black border border-white/5 shadow-inner">
-                    {item.type === 'video' ? (
-                      <video muted loop playsInline className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
-                        <source src={item.src} type="video/mp4" />
-                      </video>
-                    ) : (
-                      <img src={item.src} alt={item.title || `Memory ${idx}`} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
-                    )}
-                  </div>
-                  
-                  {/* Short Title on Polaroid */}
-                  <div className="mt-5 md:mt-6 text-center">
-                    <p className="font-script text-[#d8b4a0] text-2xl md:text-3xl opacity-80 group-hover:opacity-100 transition-opacity">
-                      {item.title}
-                    </p>
-                  </div>
+                <div className="relative w-full h-full overflow-hidden bg-black">
+                  {item.type === 'video' ? (
+                    <video 
+                      muted 
+                      loop 
+                      playsInline 
+                      className="w-full h-full object-cover object-center opacity-85 group-hover:opacity-100 transition-all duration-700 ease-out"
+                    >
+                      <source src={item.src} type="video/mp4" />
+                    </video>
+                  ) : (
+                    <img 
+                      src={item.src} 
+                      alt={item.title || `Memory ${idx}`} 
+                      className="w-full h-full object-cover object-center opacity-85 group-hover:opacity-100 transition-all duration-700 ease-out" 
+                    />
+                  )}
                 </div>
               </div>
             ))
