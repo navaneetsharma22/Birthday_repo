@@ -9,27 +9,49 @@ import AudioPlayer from '@/components/AudioPlayer';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const MemoryCard = ({ src, alt, caption, className = "" }) => (
-  <div className={`gsap-card flex flex-col ${className}`}>
-    <div className="relative w-full flex-1 rounded-[24px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/[0.08] hover:border-[#d8b4a0]/30 hover:shadow-[0_20px_60px_rgba(216,180,160,0.15)] transition-all duration-700 group bg-white/5">
-      <img 
-        src={src} 
-        alt={alt || "Memory"} 
-        className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out" 
-      />
-      {/* Subtle cinematic bottom vignette */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4) 100%)' }} />
+const MemoryCard = ({ src, alt, caption, className = "", imgClassName = "object-center", audioSrc }) => {
+  const audioRef = useRef(null);
+
+  const handleMouseEnter = () => {
+    if (audioRef.current) {
+      audioRef.current.play().catch(e => console.log('Audio play blocked:', e));
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+  };
+
+  return (
+    <div 
+      className={`gsap-card flex flex-col ${className}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="relative w-full flex-1 rounded-[24px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/[0.08] hover:border-[#d8b4a0]/30 hover:shadow-[0_20px_60px_rgba(216,180,160,0.15)] transition-all duration-700 group bg-white/5">
+        <img 
+          src={src} 
+          alt={alt || "Memory"} 
+          className={`absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out ${imgClassName}`} 
+        />
+        {/* Subtle cinematic bottom vignette */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4) 100%)' }} />
+      </div>
+      {caption && <p className="mt-5 text-center font-serif text-white/70 text-[16px] tracking-wide italic px-4">{caption}</p>}
+      
+      {audioSrc && <audio ref={audioRef} src={audioSrc} preload="auto" loop />}
     </div>
-    {caption && <p className="mt-5 text-center font-serif text-white/70 text-[16px] tracking-wide italic px-4">{caption}</p>}
-  </div>
-);
+  );
+};
 
 const SectionHeader = ({ title, icon }) => (
   <div className="gsap-header flex flex-col items-center justify-center mt-[100px] mb-[60px]">
     <div className="flex items-center gap-5 opacity-90">
       <div className="w-[40px] md:w-[80px] h-[1px] bg-gradient-to-r from-transparent to-[#d8b4a0]" />
       <div className="flex items-center gap-3">
-        <span className="text-[22px]">{icon}</span>
+        {icon && <span className="text-[22px]">{icon}</span>}
         <h2 className="font-serif text-2xl md:text-3xl text-white tracking-[0.15em] uppercase">{title}</h2>
       </div>
       <div className="w-[40px] md:w-[80px] h-[1px] bg-gradient-to-l from-transparent to-[#d8b4a0]" />
@@ -143,14 +165,15 @@ export default function MemoriesPage() {
       >
         
         {/* ── ✨ First Smile ── */}
-        <SectionHeader title="First Smile" icon="✨" />
+        <SectionHeader title="Through My Eyes" icon="" />
         <div className="w-full flex flex-col gap-[20px]">
           {/* HERO MEMORY */}
           <div className="w-full h-[450px] md:h-[650px]">
             <MemoryCard 
-              src="/assets/memories/13.jpeg" 
+              src="/assets/memories/1.png" 
               className="h-full" 
               caption="Wishing upon stars and realizing my biggest wish is already right next to me." 
+              audioSrc="/assets/memories/song.mp3.mpeg"
             />
           </div>
           
@@ -158,14 +181,14 @@ export default function MemoriesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-[20px] mt-[20px]">
             <div className="h-[450px] md:h-[600px]">
               <MemoryCard 
-                src="/assets/memories/1.jpeg" 
+                src="/assets/memories/2.png" 
                 className="h-full" 
                 caption="Every sweet story has a beginning, and this was one of our absolute favorites." 
               />
             </div>
             <div className="h-[450px] md:h-[600px]">
               <MemoryCard 
-                src="/assets/memories/3.jpg" 
+                src="/assets/memories/3.png" 
                 className="h-full" 
                 caption="When the world is asleep, our laughter is the only sound that matters." 
               />
@@ -180,14 +203,14 @@ export default function MemoriesPage() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-[20px]">
             <div className="md:col-span-5 h-[450px] md:h-[550px]">
               <MemoryCard 
-                src="/assets/memories/4.jpg" 
+                src="/assets/memories/4.png" 
                 className="h-full" 
                 caption="No maps, no destinations, just random walks and the best company." 
               />
             </div>
             <div className="md:col-span-7 h-[450px] md:h-[550px]">
               <MemoryCard 
-                src="/assets/memories/2.jpeg" 
+                src="/assets/memories/5.png" 
                 className="h-full" 
                 caption="Watching the sky turn into paint while holding hands. A moment frozen in time." 
               />
@@ -197,7 +220,7 @@ export default function MemoriesPage() {
           {/* SPECIAL PIC */}
           <div className="w-full h-[450px] md:h-[650px] mt-[20px]">
             <MemoryCard 
-              src="/assets/memories/7.jpg" 
+              src="/assets/memories/6.png" 
               className="h-full" 
               caption="You have this beautiful way of making even the most ordinary days shine bright." 
             />
@@ -211,21 +234,22 @@ export default function MemoriesPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-[20px]">
             <div className="h-[450px] md:h-[600px]">
               <MemoryCard 
-                src="/assets/memories/5.jpg" 
+                src="/assets/memories/7.png" 
                 className="h-full" 
                 caption="Finding my safest place in your laughter." 
               />
             </div>
             <div className="h-[450px] md:h-[600px]">
               <MemoryCard 
-                src="/assets/memories/8.jpg" 
+                src="/assets/memories/8.png" 
                 className="h-full" 
+                imgClassName="object-right"
                 caption="A gentle reminder of how beautiful life is when shared with someone so rare." 
               />
             </div>
             <div className="h-[450px] md:h-[600px]">
               <MemoryCard 
-                src="/assets/memories/10.jpeg" 
+                src="/assets/memories/9.png" 
                 className="h-full" 
                 caption="The best memories are always the ones we never planned to make." 
               />
@@ -239,9 +263,10 @@ export default function MemoriesPage() {
           {/* BIG CINEMATIC IMAGE */}
           <div className="w-full h-[500px] md:h-[750px]">
             <MemoryCard 
-              src="/assets/memories/15.jpeg" 
+              src="/assets/memories/10.png" 
               className="h-full" 
               caption="Every picture is a love letter to the times we share and the future we are building." 
+              audioSrc="/assets/memories/song02.mp3.mpeg"
             />
           </div>
         </div>
@@ -252,10 +277,11 @@ export default function MemoriesPage() {
       <div className="w-full flex justify-center relative z-20" style={{ marginTop: '60px', paddingBottom: '100px' }}>
         <Link
           href="/final"
-          className="group flex items-center gap-4 px-10 py-5 bg-white/5 border border-white/10 rounded-full backdrop-blur-xl transition-all duration-500 hover:bg-white/8 hover:border-[#d8b4a0]/35 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(216,180,160,0.12)]"
+          className="group flex items-center justify-center gap-4 bg-white/5 border border-white/10 rounded-full backdrop-blur-xl transition-all duration-500 hover:bg-white/10 hover:border-[#d8b4a0]/50 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(216,180,160,0.15)]"
+          style={{ padding: '20px 50px', width: 'fit-content', minWidth: '240px' }}
         >
-          <span className="font-serif text-[18px] tracking-wide text-white/90">Next Chapter</span>
-          <span className="group-hover:translate-x-2 transition-transform duration-300 text-[#d8b4a0]">→</span>
+          <span className="font-serif text-[20px] tracking-wide text-white/90">Next Chapter</span>
+          <span className="group-hover:translate-x-2 transition-transform duration-300 text-[#d8b4a0] text-[20px]">→</span>
         </Link>
       </div>
     </main>
