@@ -59,6 +59,7 @@ export default function CountdownTimer() {
     <aside
       className="gsap-slide-in justify-self-end"
       style={{
+        opacity: 0,
         maxWidth: '460px',
         width: '100%',
         padding: '32px',

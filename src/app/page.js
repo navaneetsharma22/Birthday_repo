@@ -112,7 +112,7 @@ export default function HomePage() {
           {/* Script subtitle */}
           <p
             className="font-script gsap-fade-up"
-            style={{ fontSize: '30px', color: 'rgba(255,255,255,0.7)', marginBottom: '8px' }}
+            style={{ fontSize: '30px', color: 'rgba(255,255,255,0.7)', marginBottom: '8px', opacity: 0 }}
           >
             a little universe made just for you
           </p>
@@ -125,6 +125,7 @@ export default function HomePage() {
               lineHeight: 1,
               letterSpacing: '-3px',
               color: 'rgba(255,255,255,0.95)',
+              opacity: 0,
             }}
           >
             Happy Birthday
@@ -136,7 +137,8 @@ export default function HomePage() {
                 display: 'block', 
                 fontSize: 'clamp(72px, 10vw, 142px)', 
                 marginTop: '4px',
-                fontWeight: 500
+                fontWeight: 500,
+                opacity: 0
               }}
             >
               Dear Komal
@@ -153,6 +155,7 @@ export default function HomePage() {
               fontSize: '18px',
               lineHeight: 1.8,
               color: 'rgba(255,255,255,0.75)',
+              opacity: 0,
             }}
           >
             Today is wrapped in blush light, tiny stars, warm memories,
@@ -161,7 +164,7 @@ export default function HomePage() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-wrap gap-3 gsap-fade-up">
+          <div className="flex flex-wrap gap-3 gsap-fade-up" style={{ opacity: 0 }}>
             <style>{`
               .btn-primary {
                 display: inline-flex;

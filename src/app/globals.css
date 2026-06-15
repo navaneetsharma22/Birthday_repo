@@ -352,3 +352,14 @@ button { font: inherit; }
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ── Custom Slow Float Animation ── */
+@keyframes slowFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+.slow-float {
+  animation: slowFloat 7s ease-in-out infinite;
+}
+
