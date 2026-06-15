@@ -6,7 +6,7 @@ export default function Toast({
   message, 
   isVisible, 
   onClose,
-  position = 'top-right',
+  position = 'bottom-right',
   rounded = false,
   size = 'large',
   duration = 4000
@@ -26,9 +26,12 @@ export default function Toast({
   };
 
   useEffect(() => {
+    const isBottom = position.includes('bottom');
+    const startY = isBottom ? 50 : -50;
+
     if (isVisible) {
       gsap.fromTo(toastRef.current, 
-        { y: -50, opacity: 0, scale: 0.9 },
+        { y: startY, opacity: 0, scale: 0.9 },
         { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.5)' }
       );
 
@@ -36,12 +39,14 @@ export default function Toast({
       return () => clearTimer();
     } else if (toastRef.current && toastRef.current.style.opacity !== "0" && toastRef.current.style.opacity !== "") {
       gsap.to(toastRef.current, {
-        y: -50, opacity: 0, scale: 0.9, duration: 0.4, ease: 'power2.in'
+        y: startY, opacity: 0, scale: 0.9, duration: 0.4, ease: 'power2.in'
       });
     }
-  }, [isVisible, onClose, duration]);
+  }, [isVisible, onClose, duration, position]);
 
-  const positionClass = position === 'top-right' 
+  const positionClass = position === 'bottom-right' 
+    ? 'fixed bottom-[30px] right-8 z-[100]'
+    : position === 'top-right'
     ? 'fixed top-[120px] right-8 z-[100]'
     : 'fixed top-[30px] left-1/2 -translate-x-1/2 z-[100]';
 
@@ -63,7 +68,7 @@ export default function Toast({
     <div
       ref={toastRef}
       className={positionClass}
-      style={{ opacity: 0, transform: 'translateY(-100px)' }}
+      style={{ opacity: 0 }}
       onMouseEnter={clearTimer}
       onMouseLeave={startTimer}
     >
