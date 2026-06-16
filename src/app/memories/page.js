@@ -39,8 +39,6 @@ const MemoryCard = ({ src, alt, caption, className = "", imgClassName = "object-
         {/* Subtle cinematic bottom vignette */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4) 100%)' }} />
       </div>
-      {caption && <p className="mt-5 text-center font-serif text-white/70 text-[16px] tracking-wide italic px-4">{caption}</p>}
-      
       {audioSrc && <audio ref={audioRef} src={audioSrc} preload="auto" loop />}
     </div>
   );
