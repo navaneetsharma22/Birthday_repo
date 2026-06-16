@@ -10,6 +10,7 @@ export default function CakePage() {
   const container = useRef(null);
   const router = useRouter();
   const [isCut, setIsCut] = useState(false);
+  const [hasStartedCutting, setHasStartedCutting] = useState(false);
   const [flavor, setFlavor] = useState('vanilla');
   const [showToast, setShowToast] = useState(false);
   
@@ -20,21 +21,23 @@ export default function CakePage() {
   ];
 
   useEffect(() => {
-    if (!isCut) {
+    if (!hasStartedCutting && !isCut) {
       const timer = setTimeout(() => {
         setShowToast(true);
       }, 5000);
       return () => clearTimeout(timer);
+    } else {
+      setShowToast(false);
     }
-  }, [isCut]);
+  }, [hasStartedCutting, isCut]);
 
   useEffect(() => {
     if (isCut) {
       setShowToast(false);
-      // After cake is cut and text is revealed, wait 7 seconds then seamlessly redirect to letter page
+      // After cake is cut and text is revealed, wait 15 seconds then seamlessly redirect to letter page
       const timer = setTimeout(() => {
         router.push('/letter');
-      }, 7000);
+      }, 15000);
       return () => clearTimeout(timer);
     }
   }, [isCut, router]);
@@ -113,7 +116,7 @@ export default function CakePage() {
               );
             })}
           </div>
-          <Cake onCutComplete={() => setIsCut(true)} flavor={flavor} />
+          <Cake onCutStart={() => setHasStartedCutting(true)} onCutComplete={() => setIsCut(true)} flavor={flavor} />
         </div>
       </section>
     </main>

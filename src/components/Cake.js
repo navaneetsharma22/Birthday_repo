@@ -5,13 +5,14 @@ import { useGSAP } from '@gsap/react';
 
 const wait = (ms) => new Promise((res) => setTimeout(res, ms));
 
-export default function Cake({ onCutComplete, flavor = 'vanilla' }) {
+export default function Cake({ onCutComplete, onCutStart, flavor = 'vanilla' }) {
   const container = useRef(null);
   const cakeWrapper = useRef(null);
   const [stage, setStage] = useState('idle'); // idle | blow | knife-in | sliced
   const [stageText, setStageText] = useState('🥳');
   const [btnText, setBtnText] = useState('Start Cake Cutting 🎂');
   const [disabled, setDisabled] = useState(false);
+  const audioRef = useRef(null);
 
   const flavorStyles = {
     vanilla: {
@@ -60,6 +61,12 @@ export default function Cake({ onCutComplete, flavor = 'vanilla' }) {
   async function handleCut() {
     if (disabled) return;
     setDisabled(true);
+
+    if (onCutStart) onCutStart();
+
+    if (audioRef.current) {
+      audioRef.current.play().catch(e => console.log('Audio play blocked:', e));
+    }
 
     const tl = gsap.timeline();
 
@@ -207,6 +214,8 @@ export default function Cake({ onCutComplete, flavor = 'vanilla' }) {
       >
         <span className="relative z-10 tracking-wide">{btnText}</span>
       </button>
+
+      <audio ref={audioRef} src="/assets/memories/song03.mp3.mpeg" preload="auto" />
     </div>
   );
 }

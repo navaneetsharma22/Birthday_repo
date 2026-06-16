@@ -204,6 +204,7 @@ export default function HomePage() {
             <Link
               href="/cake"
               className="btn-primary"
+              onClick={() => setShowToast(false)}
             >
               Cut the Cake
             </Link>
