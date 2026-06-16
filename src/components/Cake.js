@@ -200,9 +200,10 @@ export default function Cake({ onCutComplete, onCutStart, flavor = 'vanilla' }) 
       <button
         onClick={handleCut}
         disabled={disabled}
-        className={`cut-cake-btn mt-8 relative z-[8] text-lg font-semibold cursor-pointer rounded-full transition-all duration-500 overflow-hidden ${disabled ? 'opacity-80 scale-[0.96]' : 'hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_15px_40px_rgba(255,255,255,0.15)]'}`}
+        className={`cut-cake-btn mt-8 relative z-[8] font-semibold cursor-pointer rounded-full transition-all duration-500 overflow-hidden ${disabled ? 'opacity-80 scale-[0.96]' : 'hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_15px_40px_rgba(255,255,255,0.15)]'}`}
         style={{ 
           padding: '18px 44px',
+          fontSize: '18px',
           color: 'rgba(255,255,255,0.9)',
           background: 'rgba(20,20,20,0.45)',
           border: '1px solid rgba(255,255,255,0.15)',
@@ -212,6 +213,15 @@ export default function Cake({ onCutComplete, onCutStart, flavor = 'vanilla' }) 
           transform: disabled ? 'scale(0.96)' : 'scale(1)',
         }}
       >
+        <style>{`
+          @media (max-width: 640px) {
+            .cut-cake-btn {
+              padding: 14px 32px !important;
+              font-size: 15px !important;
+              margin-top: 1rem !important;
+            }
+          }
+        `}</style>
         <span className="relative z-10 tracking-wide">{btnText}</span>
       </button>
 

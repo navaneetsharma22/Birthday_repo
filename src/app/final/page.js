@@ -30,12 +30,36 @@ export default function FinalPage() {
   return (
     <main
       ref={container}
-      className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden text-white"
+      className="final-page-main relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden text-white"
       style={{ 
-        padding: '120px 8% 40px',
         background: 'radial-gradient(circle at 50% 30%, #0d0d0d 0%, #020202 70%, #000000 100%)' 
       }}
     >
+      <style>{`
+        .final-page-main {
+          padding: 120px 8% 40px;
+        }
+        @media (max-width: 768px) {
+          .final-page-main {
+            padding: 110px 6% 30px;
+          }
+          .final-page-main .replay-btn {
+            padding: 16px 36px !important;
+            font-size: 14px !important;
+          }
+        }
+        @media (max-width: 640px) {
+          .final-page-main {
+            padding: 100px 5% 24px;
+          }
+          .final-page-main p.font-sans {
+            font-size: 17px !important;
+          }
+          .final-page-main .replay-btn {
+            padding: 14px 28px !important;
+          }
+        }
+      `}</style>
       <FloatingParticles />
 
       {/* Subtle warm glow behind the text */}

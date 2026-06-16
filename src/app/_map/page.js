@@ -123,8 +123,26 @@ export default function MapPage() {
         </svg>
       </div>
 
-      <header className="gsap-header relative z-10 text-center" style={{ padding: '130px 8% 20px' }}>
-        <p className="font-script text-[#d8b4a0] text-3xl">our favorite places</p>
+      <header className="map-header gsap-header relative z-10 text-center">
+        <style>{`
+          .map-header {
+            padding: 130px 8% 20px;
+          }
+          @media (max-width: 768px) {
+            .map-header {
+              padding: 110px 6% 16px;
+            }
+          }
+          @media (max-width: 640px) {
+            .map-header {
+              padding: 100px 5% 12px;
+            }
+            .map-header h1 {
+              letter-spacing: -1px !important;
+            }
+          }
+        `}</style>
+        <p className="font-script text-[#d8b4a0] text-2xl sm:text-3xl">our favorite places</p>
         <h1
           className="font-serif font-semibold leading-[0.86] tracking-[-3px] mt-2 text-white/95"
           style={{ fontSize: 'clamp(52px, 9vw, 128px)' }}
@@ -137,7 +155,7 @@ export default function MapPage() {
       </header>
 
       {/* Map Area */}
-      <section className="relative z-10 w-[90%] max-w-[1000px] h-[550px] mx-auto mt-4 rounded-[40px] border border-white/10 overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.5)]" style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(12px)' }}>
+      <section className="relative z-10 w-[92%] sm:w-[90%] max-w-[1000px] h-[350px] sm:h-[450px] md:h-[550px] mx-auto mt-4 rounded-[24px] sm:rounded-[40px] border border-white/10 overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.5)]" style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(12px)' }}>
         
         {/* Subtle topographical glow */}
         <div className="absolute top-[30%] left-[40%] w-[400px] h-[400px] bg-[#d8b4a0] opacity-[0.03] rounded-full blur-[80px] pointer-events-none" />
@@ -167,9 +185,9 @@ export default function MapPage() {
 
       {/* Polaroid Modal */}
       {activeSpot && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/70 backdrop-blur-md transition-all duration-300">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-md transition-all duration-300">
           <div 
-            className="relative p-[18px] pb-[32px] bg-[rgba(30,30,30,0.85)] border border-white/15 backdrop-blur-[32px] rounded-[24px] shadow-[0_40px_100px_rgba(0,0,0,0.8)] rotate-[-1.5deg] max-w-[400px]"
+            className="relative p-[14px] sm:p-[18px] pb-[24px] sm:pb-[32px] bg-[rgba(30,30,30,0.85)] border border-white/15 backdrop-blur-[32px] rounded-[20px] sm:rounded-[24px] shadow-[0_40px_100px_rgba(0,0,0,0.8)] rotate-[-1.5deg] w-[90%] max-w-[400px]"
           >
             <button 
               onClick={() => setActiveSpot(null)}
