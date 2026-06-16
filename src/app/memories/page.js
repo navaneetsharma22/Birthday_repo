@@ -5,7 +5,6 @@ import { useGSAP } from '@gsap/react';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Link from 'next/link';
 import FloatingParticles from '@/components/FloatingParticles';
-import AudioPlayer from '@/components/AudioPlayer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -139,7 +138,6 @@ export default function MemoriesPage() {
       }}
     >
       <FloatingParticles />
-      <AudioPlayer />
 
       {/* Luxury glowing backdrop */}
       <div 
