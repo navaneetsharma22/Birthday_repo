@@ -30,8 +30,8 @@ function VaultEnvelope({ letter, onClick }) {
       className="flex flex-col items-center gsap-env-item cursor-pointer group"
       onClick={() => onClick(letter)}
     >
-      <div className="relative w-[220px] h-[160px] transition-transform duration-500 group-hover:-translate-y-2">
-        <div className="absolute bottom-0 w-full h-[120px] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-10 flex items-center justify-center border border-white/10" style={{ background: 'linear-gradient(135deg, rgba(20,20,20,0.8), rgba(10,10,10,0.9))', backdropFilter: 'blur(12px)' }}>
+      <div className="relative w-full sm:w-[220px] h-[130px] sm:h-[160px] transition-transform duration-500 group-hover:-translate-y-2">
+        <div className="absolute bottom-0 w-full h-[100px] sm:h-[120px] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-10 flex items-center justify-center border border-white/10" style={{ background: 'linear-gradient(135deg, rgba(20,20,20,0.8), rgba(10,10,10,0.9))', backdropFilter: 'blur(12px)' }}>
           {letter.locked ? (
             <svg width="28" height="34" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
@@ -44,7 +44,7 @@ function VaultEnvelope({ letter, onClick }) {
             </svg>
           )}
         </div>
-        <div className="absolute top-0 left-[8%] w-[84%] h-[100px] origin-top transition-transform duration-500 group-hover:rotate-x-[180deg]" style={{ background: 'rgba(40,40,40,0.9)', clipPath: 'polygon(50% 100%, 0 0, 100% 0)' }} />
+        <div className="absolute top-0 left-[8%] w-[84%] h-[75px] sm:h-[100px] origin-top transition-transform duration-500 group-hover:rotate-x-[180deg]" style={{ background: 'rgba(40,40,40,0.9)', clipPath: 'polygon(50% 100%, 0 0, 100% 0)' }} />
       </div>
       <p className="mt-6 font-script text-[22px] text-white/80 text-center px-4 transition-colors duration-300 group-hover:text-white">
         {letter.title}
@@ -105,7 +105,22 @@ export default function VaultPage() {
         }}
       />
 
-      <header className="gsap-header relative z-10 text-center" style={{ padding: '150px 8% 20px' }}>
+      <header className="vault-header gsap-header relative z-10 text-center">
+        <style>{`
+          .vault-header {
+            padding: 150px 8% 20px;
+          }
+          @media (max-width: 768px) {
+            .vault-header {
+              padding: 110px 6% 16px;
+            }
+          }
+          @media (max-width: 640px) {
+            .vault-header {
+              padding: 100px 5% 12px;
+            }
+          }
+        `}</style>
         <p className="font-script text-[#d8b4a0] text-3xl">words for the future</p>
         <h1
           className="font-serif font-semibold leading-[0.86] tracking-[-3px] mt-2 text-white/95"
@@ -118,7 +133,7 @@ export default function VaultPage() {
         </p>
       </header>
 
-      <section className="relative z-10 flex flex-wrap justify-center gap-12 px-8 pb-32 max-w-[1000px] mx-auto">
+      <section className="relative z-10 flex flex-wrap justify-center gap-8 sm:gap-12 px-4 sm:px-8 pb-32 max-w-[1000px] mx-auto">
         {LETTERS.map(letter => (
           <VaultEnvelope key={letter.id} letter={letter} onClick={openLetter} />
         ))}
@@ -128,7 +143,7 @@ export default function VaultPage() {
       {activeLetter && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm transition-all duration-300">
           <div 
-            className="relative w-full max-w-[600px] p-10 md:p-14 rounded-[32px] shadow-[0_40px_100px_rgba(0,0,0,0.6)] border border-white/10"
+            className="relative w-[90%] sm:w-full max-w-[600px] p-8 sm:p-10 md:p-14 rounded-[24px] sm:rounded-[32px] shadow-[0_40px_100px_rgba(0,0,0,0.6)] border border-white/10"
             style={{ background: 'rgba(20,20,20,0.85)', backdropFilter: 'blur(24px)' }}
           >
             <button 

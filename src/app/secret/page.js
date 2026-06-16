@@ -35,19 +35,31 @@ export default function SecretPage() {
     >
 
       <header className="secret-header relative z-10 text-center" style={{ padding: '100px 8% 20px' }}>
-        <p className="font-script text-[#d8b4a0] text-3xl">you found it</p>
+        <style>{`
+          @media (max-width: 768px) {
+            .secret-header {
+              padding: 100px 6% 16px !important;
+            }
+          }
+          @media (max-width: 640px) {
+            .secret-header {
+              padding: 90px 5% 12px !important;
+            }
+          }
+        `}</style>
+        <p className="font-script text-[#d8b4a0] text-2xl sm:text-3xl">you found it</p>
         <h1
           className="font-serif font-semibold leading-[0.86] tracking-[-3px] mt-2 text-white/95"
           style={{ fontSize: 'clamp(42px, 7vw, 90px)' }}
         >
           The Secret Gallery
         </h1>
-        <p className="mt-4 mb-6 text-base text-white/70 max-w-[500px] mx-auto leading-relaxed">
+        <p className="mt-4 mb-6 text-sm sm:text-base text-white/70 max-w-[500px] mx-auto leading-relaxed">
           Only the true owner of this heart knows the password. Welcome to our hidden memories.
         </p>
       </header>
 
-      <section className="relative z-10 grid grid-cols-2 md:grid-cols-3 gap-6 px-8 max-w-[1000px] mx-auto pb-32 mt-10">
+      <section className="relative z-10 grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-8 max-w-[1000px] mx-auto pb-32 mt-10">
         {[1, 2, 3, 4, 5, 6].map((item) => (
           <div 
             key={item} 

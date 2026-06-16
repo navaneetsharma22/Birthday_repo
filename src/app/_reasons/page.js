@@ -170,7 +170,22 @@ export default function ReasonsPage() {
         }}
       />
 
-      <header className="gsap-header relative z-10 text-center" style={{ padding: '150px 8% 20px' }}>
+      <header className="reasons-header gsap-header relative z-10 text-center">
+        <style>{`
+          .reasons-header {
+            padding: 150px 8% 20px;
+          }
+          @media (max-width: 768px) {
+            .reasons-header {
+              padding: 110px 6% 16px;
+            }
+          }
+          @media (max-width: 640px) {
+            .reasons-header {
+              padding: 100px 5% 12px;
+            }
+          }
+        `}</style>
         <p className="font-script text-[#d8b4a0] text-3xl">one hundred tiny Reasons Why</p>
         <h1
           className="font-serif font-semibold leading-[0.86] tracking-[-3px] mt-2 text-white/95"
@@ -182,7 +197,7 @@ export default function ReasonsPage() {
         <button
           id="randomReasonBtn"
           onClick={showRandom}
-          className="inline-flex items-center justify-center relative z-[8] text-lg font-semibold cursor-pointer rounded-full transition-all duration-500 overflow-hidden hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_15px_40px_rgba(255,255,255,0.15)]"
+          className="inline-flex items-center justify-center relative z-[8] text-base sm:text-lg font-semibold cursor-pointer rounded-full transition-all duration-500 overflow-hidden hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_15px_40px_rgba(255,255,255,0.15)]"
           style={{ 
             padding: '16px 36px',
             color: 'rgba(255,255,255,0.9)',
@@ -209,9 +224,26 @@ export default function ReasonsPage() {
 
       {/* 100 Flip Cards */}
       <section
-        className="grid gap-8"
-        style={{ padding: '20px 8% 90px', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}
+        className="reasons-grid grid gap-6 sm:gap-8"
       >
+        <style>{`
+          .reasons-grid {
+            padding: 20px 8% 90px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          }
+          @media (max-width: 768px) {
+            .reasons-grid {
+              padding: 20px 5% 60px;
+              grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            }
+          }
+          @media (max-width: 480px) {
+            .reasons-grid {
+              padding: 16px 4% 50px;
+              grid-template-columns: 1fr;
+            }
+          }
+        `}</style>
         {reasons.map((reason, i) => (
           <div key={i} className="gsap-card">
             <ReasonCard
