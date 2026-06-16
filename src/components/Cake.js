@@ -169,7 +169,7 @@ export default function Cake({ onCutComplete, onCutStart, flavor = 'vanilla' }) 
   }
 
   return (
-    <div ref={container} className="cake-section relative flex flex-col items-center justify-center min-h-[62vh] overflow-visible">
+    <div ref={container} className="cake-section relative flex flex-col items-center justify-center min-h-[40vh] sm:min-h-[50vh] md:min-h-[62vh] overflow-visible">
       <div className="cake-glow" />
 
       <div ref={cakeWrapper}>

@@ -87,28 +87,78 @@ export default function CakePage() {
         }}
       />
 
-      <section className="relative z-10 w-full flex flex-col items-center justify-center text-center">
+      <section className="relative z-10 w-full flex flex-col items-center justify-center text-center overflow-hidden">
+        <style>{`
+          .cake-subtitle {
+            font-size: 30px;
+          }
+          .cake-heading {
+            font-size: clamp(36px, 9vw, 128px);
+            max-width: 900px;
+            margin-bottom: 64px;
+          }
+          .flavor-wrap {
+            gap: 20px;
+            margin-top: 24px;
+            margin-bottom: 64px;
+          }
+          .flavor-btn {
+            padding: 12px 24px;
+            font-size: 15px;
+          }
+          @media (max-width: 768px) {
+            .cake-subtitle { font-size: 24px; }
+            .cake-heading { margin-bottom: 32px; letter-spacing: -2px !important; }
+            .flavor-wrap { gap: 12px; margin-bottom: 32px; margin-top: 16px; }
+            .flavor-btn { padding: 10px 18px; font-size: 13px; gap: 8px !important; }
+          }
+          @media (max-width: 640px) {
+            .cake-subtitle { font-size: 20px; }
+            .cake-heading { 
+              font-size: clamp(28px, 8vw, 52px) !important; 
+              margin-bottom: 16px; 
+              letter-spacing: -1px !important;
+              padding: 0 4px;
+            }
+            .flavor-wrap { 
+              gap: 8px; 
+              margin-bottom: 16px; 
+              margin-top: 8px;
+              flex-direction: row;
+              justify-content: center;
+            }
+            .flavor-btn { 
+              padding: 8px 14px; 
+              font-size: 12px; 
+              gap: 6px !important;
+            }
+          }
+          @media (max-width: 380px) {
+            .cake-heading { font-size: clamp(24px, 7vw, 36px) !important; }
+            .flavor-btn { padding: 6px 10px; font-size: 11px; }
+          }
+        `}</style>
+
         <p 
-          className={`font-script text-3xl text-white/70 transition-all duration-[1500ms] ${isCut ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[30px]'}`}
+          className={`font-script cake-subtitle text-white/70 transition-all duration-[1500ms] ${isCut ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[30px]'}`}
         >
           You mean the world to me
         </p>
         <h1
-          className={`font-serif font-semibold leading-[0.92] tracking-[-3px] mt-2 mb-16 text-white/90 transition-all duration-[1500ms] delay-[250ms] ${isCut ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[30px]'}`}
-          style={{ fontSize: 'clamp(52px, 9vw, 128px)', maxWidth: '900px' }}
+          className={`font-serif font-semibold leading-[0.92] tracking-[-3px] mt-2 text-white/90 cake-heading transition-all duration-[1500ms] delay-[250ms] ${isCut ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[30px]'}`}
         >
           Happy Birthday Komal
         </h1>
 
         <div className={`gsap-cake-wrapper flex flex-col items-center transition-opacity duration-1000 ${isCut ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-          <div className="flex flex-wrap justify-center gap-5 mt-6 mb-16">
+          <div className="flavor-wrap flex flex-wrap justify-center">
             {FLAVORS.map(f => {
               const isSelected = flavor === f.id;
               return (
                 <button
                   key={f.id}
                   onClick={() => setFlavor(f.id)}
-                  className={`group relative flex items-center gap-3 px-6 py-3.5 rounded-full font-serif text-[15px] tracking-wider transition-all duration-500 outline-none bg-transparent ${
+                  className={`flavor-btn group relative flex items-center gap-3 rounded-full font-serif tracking-wider transition-all duration-500 outline-none bg-transparent ${
                     isSelected 
                       ? 'text-white' 
                       : 'text-white/40 hover:text-white/80'
@@ -119,7 +169,7 @@ export default function CakePage() {
                 >
                   {/* Flavor Color Dot */}
                   <div 
-                    className={`w-3 h-3 rounded-full shadow-inner transition-all duration-500 ${isSelected ? 'scale-125' : 'group-hover:scale-110'}`}
+                    className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full shadow-inner transition-all duration-500 ${isSelected ? 'scale-125' : 'group-hover:scale-110'}`}
                     style={{ 
                       background: f.color,
                       boxShadow: isSelected ? `0 0 10px ${f.color}` : `0 0 0px transparent`

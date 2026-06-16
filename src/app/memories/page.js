@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -11,24 +11,38 @@ gsap.registerPlugin(ScrollTrigger);
 
 const MemoryCard = ({ src, alt, caption, className = "", imgClassName = "object-center", audioSrc }) => {
   const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const handleMouseEnter = () => {
     if (audioRef.current) {
-      audioRef.current.play().catch(e => console.log('Audio play blocked:', e));
+      audioRef.current.play().then(() => setIsPlaying(true)).catch(e => console.log('Audio play blocked:', e));
     }
   };
 
   const handleMouseLeave = () => {
     if (audioRef.current) {
       audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play().then(() => setIsPlaying(true)).catch(e => console.log('Audio play blocked:', e));
+      }
     }
   };
 
   return (
     <div 
-      className={`gsap-card flex flex-col ${className}`}
+      className={`gsap-card flex flex-col ${className} ${audioSrc ? 'cursor-pointer' : ''}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={audioSrc ? toggleAudio : undefined}
     >
       <div className="relative w-full flex-1 rounded-[24px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/[0.08] hover:border-[#d8b4a0]/30 hover:shadow-[0_20px_60px_rgba(216,180,160,0.15)] transition-all duration-700 group bg-white/5">
         <img 
@@ -38,6 +52,22 @@ const MemoryCard = ({ src, alt, caption, className = "", imgClassName = "object-
         />
         {/* Subtle cinematic bottom vignette */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4) 100%)' }} />
+        
+        {/* Audio Indicator */}
+        {audioSrc && (
+          <div className="absolute top-4 right-4 z-20 bg-black/40 backdrop-blur-md rounded-full p-2.5 border border-white/20 shadow-lg transition-transform hover:scale-110">
+            {isPlaying ? (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d8b4a0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+            ) : (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="translate-x-[1px]">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            )}
+          </div>
+        )}
       </div>
       {audioSrc && <audio ref={audioRef} src={audioSrc} preload="auto" loop />}
     </div>
