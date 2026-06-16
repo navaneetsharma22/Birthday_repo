@@ -358,7 +358,12 @@ button { font: inherit; }
   .reason-card { height: 260px; }
   .reason-front h3 { font-size: 52px; }
   .reason-back p { font-size: 26px; }
-  .cake { transform: scale(0.72); transform-origin: center top; margin-bottom: -10px; }
+  .cake { 
+    transform: scale(0.72); 
+    transform-origin: center top; 
+    margin-top: 20px;
+    margin-bottom: -20px; 
+  }
   .cake-glow { width: 300px; height: 300px; }
   .cake-section { min-height: 50vh !important; }
   .envelope { height: 230px; }
@@ -377,7 +382,8 @@ button { font: inherit; }
   .cake { 
     transform: scale(0.52); 
     transform-origin: center top; 
-    margin-bottom: -60px;
+    margin-top: 40px;
+    margin-bottom: -70px;
   }
   .cake-section { 
     min-height: auto !important; 
@@ -393,7 +399,7 @@ button { font: inherit; }
 
 /* ── Small Phone (≤ 380px) ── */
 @media (max-width: 380px) {
-  .cake { transform: scale(0.45); margin-bottom: -80px; }
+  .cake { transform: scale(0.45); margin-top: 50px; margin-bottom: -90px; }
   .reason-card { height: 170px; }
   .reason-front h3 { font-size: 36px; }
   .reason-back p { font-size: 18px; }
