@@ -9,13 +9,16 @@ export default function FinalPage() {
   const container = useRef(null);
 
   useGSAP(() => {
-    gsap.from('.gsap-final > *', {
-      y: 40,
-      opacity: 0,
-      stagger: 0.2,
-      duration: 1.2,
-      ease: 'power3.out'
-    });
+    gsap.fromTo('.gsap-final > *', 
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.2,
+        duration: 1.2,
+        ease: 'power3.out'
+      }
+    );
 
     // Premium breathing glow for the button
     gsap.to('.replay-btn', {

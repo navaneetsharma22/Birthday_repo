@@ -58,22 +58,28 @@ export default function VaultPage() {
   const [activeLetter, setActiveLetter] = useState(null);
 
   useGSAP(() => {
-    gsap.from('.gsap-header > *', {
-      y: 30,
-      opacity: 0,
-      stagger: 0.15,
-      duration: 1,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.gsap-header > *', 
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.15,
+        duration: 1,
+        ease: 'power2.out',
+      }
+    );
 
-    gsap.from('.gsap-env-item', {
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.2,
-      ease: 'back.out(1.2)',
-      delay: 0.4
-    });
+    gsap.fromTo('.gsap-env-item', 
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'back.out(1.2)',
+        delay: 0.4
+      }
+    );
   }, { scope: container });
 
   function openLetter(letter) {

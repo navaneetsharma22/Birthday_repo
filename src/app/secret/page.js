@@ -7,22 +7,28 @@ export default function SecretPage() {
   const container = useRef(null);
 
   useGSAP(() => {
-    gsap.from('.secret-img', {
-      scale: 0.5,
-      opacity: 0,
-      rotation: () => Math.random() * 40 - 20,
-      duration: 1.2,
-      stagger: 0.15,
-      ease: 'back.out(1.5)',
-      delay: 0.2
-    });
+    gsap.fromTo('.secret-img', 
+      { scale: 0.5, opacity: 0, rotation: () => Math.random() * 40 - 20 },
+      {
+        scale: 1,
+        opacity: 1,
+        rotation: 0,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: 'back.out(1.5)',
+        delay: 0.2
+      }
+    );
 
-    gsap.from('.secret-header', {
-      y: -30,
-      opacity: 0,
-      duration: 1,
-      ease: 'power2.out'
-    });
+    gsap.fromTo('.secret-header', 
+      { y: -30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: 'power2.out'
+      }
+    );
   }, { scope: container });
 
   return (

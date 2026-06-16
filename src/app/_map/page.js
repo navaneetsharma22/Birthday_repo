@@ -43,24 +43,30 @@ export default function MapPage() {
   const [activeSpot, setActiveSpot] = useState(null);
 
   useGSAP(() => {
-    gsap.from('.gsap-header > *', {
-      y: 30,
-      opacity: 0,
-      stagger: 0.15,
-      duration: 1,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.gsap-header > *', 
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.15,
+        duration: 1,
+        ease: 'power2.out',
+      }
+    );
 
     // Drop the pins in one by one
-    gsap.from('.gsap-pin', {
-      y: -50,
-      opacity: 0,
-      scale: 0.5,
-      duration: 1,
-      stagger: 0.2,
-      ease: 'bounce.out',
-      delay: 0.5
-    });
+    gsap.fromTo('.gsap-pin', 
+      { y: -50, opacity: 0, scale: 0.5 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'bounce.out',
+        delay: 0.5
+      }
+    );
     
     // Continuous subtle floating for the pins
     gsap.to('.gsap-pin-glow', {

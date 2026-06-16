@@ -49,20 +49,26 @@ export default function LetterPage() {
   }, [isTyped, router]);
 
   useGSAP(() => {
-    gsap.from('.gsap-envelope', {
-      x: -50,
-      opacity: 0,
-      duration: 1,
-      ease: 'power3.out'
-    });
+    gsap.fromTo('.gsap-envelope', 
+      { x: -50, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 1,
+        ease: 'power3.out'
+      }
+    );
     
-    gsap.from('.gsap-paper', {
-      x: 50,
-      opacity: 0,
-      duration: 1,
-      delay: 0.2,
-      ease: 'power3.out'
-    });
+    gsap.fromTo('.gsap-paper', 
+      { x: 50, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 1,
+        delay: 0.2,
+        ease: 'power3.out'
+      }
+    );
   }, { scope: container });
 
   function openEnvelope() {

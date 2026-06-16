@@ -44,13 +44,16 @@ export default function CakePage() {
 
   useGSAP(() => {
     // Animate only the cake wrapper on initial load
-    gsap.from('.gsap-cake-wrapper', {
-      y: 40,
-      opacity: 0,
-      duration: 1.2,
-      ease: 'power3.out',
-      delay: 0.2
-    });
+    gsap.fromTo('.gsap-cake-wrapper', 
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1.2,
+        ease: 'power3.out',
+        delay: 0.2
+      }
+    );
   }, { scope: container });
 
   return (

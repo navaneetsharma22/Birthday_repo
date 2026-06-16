@@ -116,13 +116,16 @@ export default function ReasonsPage() {
 
   useGSAP(() => {
     // Header entrance
-    gsap.from('.gsap-header > *', {
-      y: 30,
-      opacity: 0,
-      stagger: 0.15,
-      duration: 1,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.gsap-header > *', 
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.15,
+        duration: 1,
+        ease: 'power2.out',
+      }
+    );
 
     // Batch ScrollTrigger for the 100 cards
     ScrollTrigger.batch('.gsap-card', {
