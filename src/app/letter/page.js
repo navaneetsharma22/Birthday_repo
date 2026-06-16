@@ -148,9 +148,45 @@ export default function LetterPage() {
       />
 
       <div
-        className="relative z-10 grid items-center w-full flex-1"
-        style={{ gridTemplateColumns: '1fr 1.35fr', padding: '160px 9% 40px', gap: '80px' }}
+        className="letter-grid relative z-10 grid items-center w-full flex-1"
       >
+        <style>{`
+          .letter-grid {
+            grid-template-columns: 1fr 1.35fr;
+            padding: 160px 9% 40px;
+            gap: 80px;
+          }
+          @media (max-width: 768px) {
+            .letter-grid {
+              grid-template-columns: 1fr;
+              padding: 120px 6% 40px;
+              gap: 40px;
+            }
+            .letter-grid .gsap-envelope {
+              justify-self: center;
+              max-width: 320px;
+              width: 100%;
+            }
+            .letter-grid .gsap-paper {
+              min-height: 500px !important;
+              padding: 24px 20px !important;
+            }
+          }
+          @media (max-width: 640px) {
+            .letter-grid {
+              padding: 100px 5% 30px;
+              gap: 30px;
+            }
+            .letter-grid .gsap-envelope {
+              max-width: 260px;
+            }
+            .letter-grid .gsap-paper {
+              min-height: auto !important;
+              padding: 20px 16px !important;
+              border-radius: 24px !important;
+            }
+          }
+        `}</style>
         {/* Envelope */}
         <section
           className={`gsap-envelope envelope${open ? ' open' : ''}`}

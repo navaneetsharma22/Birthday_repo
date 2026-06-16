@@ -57,9 +57,8 @@ export default function HomePage() {
   return (
     <main
       ref={container}
-      className="relative min-h-screen flex items-center"
+      className="home-main-inner relative min-h-screen flex items-center"
       style={{
-        padding: '130px 9% 70px',
         backgroundImage: "url('/assets/home-bg.jpg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -67,6 +66,21 @@ export default function HomePage() {
         backgroundColor: '#050505',
       }}
     >
+      <style>{`
+        .home-main-inner {
+          padding: 130px 9% 70px;
+        }
+        @media (max-width: 768px) {
+          .home-main-inner {
+            padding: 110px 6% 50px;
+          }
+        }
+        @media (max-width: 640px) {
+          .home-main-inner {
+            padding: 100px 5% 40px;
+          }
+        }
+      `}</style>
       <Toast message="💖 Hey Birthday Girl, your cake is waiting! Click to cut it. 🎂" isVisible={showToast} onClose={() => setShowToast(false)} />
       {/* Dark gradient overlay to make text readable on the left, while showing the image on the right */}
       <div
@@ -104,9 +118,29 @@ export default function HomePage() {
 
       {/* Two-column layout */}
       <div
-        className="relative z-10 w-full grid items-center"
-        style={{ gridTemplateColumns: '1.2fr 0.8fr', gap: '48px' }}
+        className="home-hero-grid relative z-10 w-full grid items-center"
+        style={{ gap: '48px' }}
       >
+        <style>{`
+          .home-hero-grid {
+            grid-template-columns: 1.2fr 0.8fr;
+          }
+          @media (max-width: 768px) {
+            .home-hero-grid {
+              grid-template-columns: 1fr;
+              gap: 32px !important;
+              text-align: center;
+            }
+            .home-hero-grid section {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            }
+            .home-hero-grid .flex.flex-wrap {
+              justify-content: center;
+            }
+          }
+        `}</style>
         {/* ── Left: Hero Content ── */}
         <section>
           {/* Script subtitle */}

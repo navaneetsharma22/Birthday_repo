@@ -56,13 +56,27 @@ export default function CakePage() {
   return (
     <main
       ref={container}
-      className="relative min-h-screen grid place-items-center text-center overflow-hidden"
+      className="cake-page-main relative min-h-screen grid place-items-center text-center overflow-hidden"
       style={{ 
-        padding: '150px 8% 70px',
         color: '#fff', 
         background: 'radial-gradient(circle at 50% 30%, #0d0d0d 0%, #020202 70%, #000000 100%)' 
       }}
     >
+      <style>{`
+        .cake-page-main {
+          padding: 150px 8% 70px;
+        }
+        @media (max-width: 768px) {
+          .cake-page-main {
+            padding: 120px 5% 50px;
+          }
+        }
+        @media (max-width: 640px) {
+          .cake-page-main {
+            padding: 100px 4% 40px;
+          }
+        }
+      `}</style>
       <Toast message="Hey Gorgeous Please cut the cake" isVisible={showToast} onClose={() => setShowToast(false)} />
       {/* Subtle warm glow behind the cake */}
       <div 

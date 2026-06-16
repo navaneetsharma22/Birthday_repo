@@ -45,23 +45,23 @@ export default function Toast({
   }, [isVisible, onClose, duration, position]);
 
   const positionClass = position === 'bottom-right' 
-    ? 'fixed bottom-[30px] right-8 z-[100]'
+    ? 'fixed bottom-[30px] right-4 left-4 sm:left-auto sm:right-8 z-[100]'
     : position === 'top-right'
-    ? 'fixed top-[120px] right-8 z-[100]'
-    : 'fixed top-[30px] left-1/2 -translate-x-1/2 z-[100]';
+    ? 'fixed top-[120px] right-4 left-4 sm:left-auto sm:right-8 z-[100]'
+    : 'fixed top-[30px] left-4 right-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 z-[100]';
 
-  const containerClass = `bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.6)] flex items-center gap-5 ${
+  const containerClass = `bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.6)] flex items-center gap-3 sm:gap-5 ${
     rounded ? 'rounded-full' : 'rounded-xl'
   } ${
-    size === 'large' ? 'px-16 py-8 min-h-[100px] min-w-[500px] justify-center' : 'px-7 py-4'
+    size === 'large' ? 'px-6 sm:px-16 py-5 sm:py-8 min-h-[70px] sm:min-h-[100px] justify-center' : 'px-5 sm:px-7 py-3 sm:py-4'
   }`;
 
   const textClass = `font-serif tracking-wide text-white/95 ${
-    size === 'large' ? 'text-[24px]' : 'text-[18px]'
+    size === 'large' ? 'text-[16px] sm:text-[24px]' : 'text-[14px] sm:text-[18px]'
   }`;
 
   const iconClass = `animate-pulse ${
-    size === 'large' ? 'text-3xl' : 'text-xl'
+    size === 'large' ? 'text-xl sm:text-3xl' : 'text-lg sm:text-xl'
   }`;
 
   return (

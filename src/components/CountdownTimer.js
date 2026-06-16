@@ -57,7 +57,7 @@ export default function CountdownTimer() {
 
   return (
     <aside
-      className="gsap-slide-in justify-self-end"
+      className="countdown-card gsap-slide-in justify-self-end"
       style={{
         opacity: 0,
         maxWidth: '460px',
@@ -71,6 +71,22 @@ export default function CountdownTimer() {
         boxShadow: '0 24px 70px rgba(0,0,0,0.4)',
       }}
     >
+      <style>{`
+        @media (max-width: 768px) {
+          .countdown-card {
+            justify-self: center !important;
+            max-width: 400px !important;
+            padding: 24px !important;
+          }
+        }
+        @media (max-width: 640px) {
+          .countdown-card {
+            max-width: 100% !important;
+            padding: 20px !important;
+            border-radius: 24px !important;
+          }
+        }
+      `}</style>
       {/* Birthday Message (Only shows when the first countdown completes) */}
       {isBirthday && (
         <div className="mb-8 p-5 rounded-2xl bg-white/5 border border-white/10 text-center shadow-inner">
@@ -103,16 +119,24 @@ export default function CountdownTimer() {
             }}
           >
             <strong
-              className="block font-serif"
+              className="countdown-value block font-serif"
               style={{ fontSize: '34px', lineHeight: 1, color: 'rgba(255,255,255,0.95)' }}
             >
               {value}
             </strong>
             <span
+              className="countdown-label"
               style={{ display: 'block', fontSize: '11px', marginTop: '4px', color: 'rgba(255,255,255,0.6)', textTransform: 'capitalize' }}
             >
               {label}
             </span>
+            <style>{`
+              @media (max-width: 640px) {
+                .countdown-value {
+                  font-size: 26px !important;
+                }
+              }
+            `}</style>
           </div>
         ))}
       </div>
