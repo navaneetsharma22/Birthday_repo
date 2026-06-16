@@ -145,7 +145,7 @@ export default function CakePage() {
         <p 
           className={`font-script cake-subtitle text-white/70 transition-all duration-[1500ms] ${isCut ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[30px]'}`}
         >
-          You mean the world to me
+          May your dreams bloom beautifully.
         </p>
         <h1
           className={`font-serif font-semibold leading-[0.92] tracking-[-3px] mt-2 text-white/90 cake-heading transition-all duration-[1500ms] delay-[250ms] ${isCut ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[30px]'}`}
