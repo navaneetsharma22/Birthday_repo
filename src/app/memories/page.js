@@ -37,6 +37,25 @@ const MemoryCard = ({ src, alt, caption, className = "", imgClassName = "object-
         />
         {/* Subtle cinematic bottom vignette */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4) 100%)' }} />
+        
+        {/* Audio Indicator */}
+        {audioSrc && (
+          <div className="absolute top-8 right-8 z-10 flex items-center gap-5 bg-gradient-to-r from-black/80 to-black/50 backdrop-blur-2xl px-10 py-5 rounded-full border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] pointer-events-none group-hover:from-black/90 group-hover:to-black/70 group-hover:border-[#d8b4a0]/50 group-hover:shadow-[0_8px_32px_rgba(216,180,160,0.25)] transition-all duration-500 ease-out translate-y-0 group-hover:-translate-y-1">
+            
+            {/* Equalizer Container */}
+            <div className="flex items-end gap-[4px] h-[20px] opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="music-bar music-bar-1"></div>
+              <div className="music-bar music-bar-2"></div>
+              <div className="music-bar music-bar-3"></div>
+              <div className="music-bar music-bar-4"></div>
+            </div>
+
+            {/* Text */}
+            <span className="text-white/90 group-hover:text-white text-[13px] font-sans tracking-[0.25em] uppercase font-bold whitespace-nowrap mt-[2px] transition-colors duration-300">
+              Hover to Play
+            </span>
+          </div>
+        )}
       </div>
       {audioSrc && <audio ref={audioRef} src={audioSrc} preload="auto" loop />}
     </div>
