@@ -447,3 +447,26 @@ button { font: inherit; }
 .music-bar-3 { animation-duration: 0.50s; animation-delay: 0.1s; }
 .music-bar-4 { animation-duration: 0.65s; animation-delay: 0.3s; }
 
+/* ── Sound Wave Pulse Animation ── */
+@keyframes soundPulse {
+  0%   { transform: scale(0.85); opacity: 0.8; }
+  50%  { transform: scale(1.1);  opacity: 0.3; }
+  100% { transform: scale(0.85); opacity: 0.8; }
+}
+
+@keyframes dotGlow {
+  0%   { box-shadow: 0 0 8px rgba(216,180,160,0.5),  0 0 16px rgba(216,180,160,0.2); }
+  50%  { box-shadow: 0 0 14px rgba(216,180,160,0.9), 0 0 28px rgba(216,180,160,0.4); }
+  100% { box-shadow: 0 0 8px rgba(216,180,160,0.5),  0 0 16px rgba(216,180,160,0.2); }
+}
+
+.sound-ring {
+  animation: soundPulse 2s ease-in-out infinite;
+}
+.sound-ring-1 { animation-delay: 0s; }
+.sound-ring-2 { animation-delay: 0.35s; }
+.sound-ring-3 { animation-delay: 0.7s; }
+
+.sound-dot {
+  animation: dotGlow 2s ease-in-out infinite;
+}

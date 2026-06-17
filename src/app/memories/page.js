@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -10,16 +10,31 @@ gsap.registerPlugin(ScrollTrigger);
 
 const MemoryCard = ({ src, alt, caption, className = "", imgClassName = "object-center", audioSrc }) => {
   const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const handleMouseEnter = () => {
     if (audioRef.current) {
       audioRef.current.play().catch(e => console.log('Audio play blocked:', e));
+      setIsPlaying(true);
     }
   };
 
   const handleMouseLeave = () => {
     if (audioRef.current) {
       audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  // Mobile tap toggle
+  const handleTap = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play().catch(e => console.log('Audio play blocked:', e));
+      setIsPlaying(true);
     }
   };
 
@@ -38,23 +53,79 @@ const MemoryCard = ({ src, alt, caption, className = "", imgClassName = "object-
         {/* Subtle cinematic bottom vignette */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4) 100%)' }} />
         
-        {/* Audio Indicator */}
+        {/* ── Desktop Premium Audio Indicator (hidden on mobile) ── */}
         {audioSrc && (
-          <div className="absolute top-8 right-8 z-10 flex items-center gap-5 bg-gradient-to-r from-black/80 to-black/50 backdrop-blur-2xl px-10 py-5 rounded-full border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] pointer-events-none group-hover:from-black/90 group-hover:to-black/70 group-hover:border-[#d8b4a0]/50 group-hover:shadow-[0_8px_32px_rgba(216,180,160,0.25)] transition-all duration-500 ease-out translate-y-0 group-hover:-translate-y-1">
+          <div className="absolute top-6 right-6 z-10 pointer-events-none group-hover:-translate-y-1 transition-all duration-700 ease-out hidden md:block">
+            {/* Outer glow ring */}
+            <div className="absolute -inset-3 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{ background: 'radial-gradient(circle, rgba(216,180,160,0.15) 0%, transparent 70%)' }} />
             
-            {/* Equalizer Container */}
-            <div className="flex items-end gap-[4px] h-[20px] opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="music-bar music-bar-1"></div>
-              <div className="music-bar music-bar-2"></div>
-              <div className="music-bar music-bar-3"></div>
-              <div className="music-bar music-bar-4"></div>
+            <div className="relative flex items-center gap-5 rounded-2xl overflow-hidden" style={{ padding: '14px 24px' }}>
+              {/* Glass background */}
+              <div className="absolute inset-0 bg-black/70 backdrop-blur-2xl border border-white/[0.08] rounded-2xl group-hover:border-[#d8b4a0]/30 transition-all duration-500" />
+              
+              {/* Pulsing Sound Wave Icon */}
+              <div className="relative w-[42px] h-[42px] flex-shrink-0 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full border border-[#d8b4a0]/30 sound-ring sound-ring-3" />
+                <div className="absolute inset-[5px] rounded-full border border-[#d8b4a0]/40 sound-ring sound-ring-2" />
+                <div className="absolute inset-[10px] rounded-full border-[1.5px] border-[#d8b4a0]/60 sound-ring sound-ring-1" />
+                <div className="w-[10px] h-[10px] rounded-full bg-[#d8b4a0] shadow-[0_0_10px_rgba(216,180,160,0.7),0_0_20px_rgba(216,180,160,0.3)] sound-dot" />
+              </div>
+              
+              {/* Divider line */}
+              <div className="relative w-[1px] h-[28px] bg-gradient-to-b from-transparent via-white/15 to-transparent flex-shrink-0" />
+
+              {/* Right side - text + equalizer */}
+              <div className="relative flex flex-col gap-1.5">
+                <span className="text-[#d8b4a0] text-[10px] font-sans tracking-[0.3em] uppercase font-medium whitespace-nowrap">
+                  This memory has sound
+                </span>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-end gap-[3px] h-[14px]">
+                    <div className="music-bar music-bar-1"></div>
+                    <div className="music-bar music-bar-2"></div>
+                    <div className="music-bar music-bar-3"></div>
+                    <div className="music-bar music-bar-4"></div>
+                  </div>
+                  <span className="text-white/80 group-hover:text-white text-[12px] font-serif italic tracking-wide whitespace-nowrap transition-colors duration-300">
+                    Hover to listen
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Mobile Audio Indicator (tap to play) ── */}
+        {audioSrc && (
+          <button
+            onClick={handleTap}
+            className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 rounded-full overflow-hidden cursor-pointer md:hidden active:scale-95 transition-all duration-300"
+            style={{ padding: '6px 14px' }}
+          >
+            {/* Glass bg */}
+            <div className={`absolute inset-0 backdrop-blur-2xl rounded-full border transition-all duration-500 ${isPlaying ? 'bg-black/80 border-[#d8b4a0]/50 shadow-[0_0_20px_rgba(216,180,160,0.25)]' : 'bg-black/70 border-white/[0.08]'}`} />
+            
+            {/* Pulsing dot */}
+            <div className="relative w-[20px] h-[20px] flex-shrink-0 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full border border-[#d8b4a0]/30 sound-ring sound-ring-3" />
+              <div className="absolute inset-[3px] rounded-full border border-[#d8b4a0]/50 sound-ring sound-ring-2" />
+              <div className={`w-[6px] h-[6px] rounded-full transition-colors duration-300 ${isPlaying ? 'bg-[#d8b4a0] shadow-[0_0_10px_rgba(216,180,160,0.8)]' : 'bg-[#d8b4a0]/70 shadow-[0_0_6px_rgba(216,180,160,0.4)]'} sound-dot`} />
             </div>
 
+            {/* Equalizer bars (visible when playing) */}
+            {isPlaying && (
+              <div className="relative flex items-end gap-[2px] h-[10px]">
+                <div className="music-bar music-bar-1" style={{ height: '10px', width: '2px' }}></div>
+                <div className="music-bar music-bar-2" style={{ height: '10px', width: '2px' }}></div>
+                <div className="music-bar music-bar-3" style={{ height: '10px', width: '2px' }}></div>
+              </div>
+            )}
+
             {/* Text */}
-            <span className="text-white/90 group-hover:text-white text-[13px] font-sans tracking-[0.25em] uppercase font-bold whitespace-nowrap mt-[2px] transition-colors duration-300">
-              Hover to Play
+            <span className="relative text-white/90 text-[9px] font-sans tracking-[0.2em] uppercase font-semibold whitespace-nowrap">
+              {isPlaying ? 'Now Playing' : 'Tap to Listen'}
             </span>
-          </div>
+          </button>
         )}
       </div>
       {audioSrc && <audio ref={audioRef} src={audioSrc} preload="auto" loop />}
