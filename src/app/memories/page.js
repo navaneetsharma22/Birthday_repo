@@ -287,6 +287,7 @@ export default function MemoriesPage() {
                 src="/assets/memories/3.png" 
                 className="h-full" 
                 caption="When the world is asleep, our laughter is the only sound that matters." 
+                audioSrc="/assets/memories/song09.mp3.mpeg"
               />
             </div>
           </div>
@@ -302,6 +303,7 @@ export default function MemoriesPage() {
                 src="/assets/memories/4.png" 
                 className="h-full" 
                 caption="No maps, no destinations, just random walks and the best company." 
+                audioSrc="/assets/memories/song11.mp3.mpeg"
               />
             </div>
             <div className="md:col-span-7 h-[450px] md:h-[550px]">
@@ -344,6 +346,7 @@ export default function MemoriesPage() {
                 className="h-full" 
                 imgClassName="object-right"
                 caption="A gentle reminder of how beautiful life is when shared with someone so rare." 
+                audioSrc="/assets/memories/song13.mp3.mpeg"
               />
             </div>
             <div className="h-[450px] md:h-[600px]">
@@ -351,6 +354,7 @@ export default function MemoriesPage() {
                 src="/assets/memories/9.png" 
                 className="h-full" 
                 caption="The best memories are always the ones we never planned to make." 
+                audioSrc="/assets/memories/song10.mp3.mpeg"
               />
             </div>
           </div>
