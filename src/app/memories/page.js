@@ -57,38 +57,27 @@ const MemoryCard = ({ src, alt, caption, className = "", imgClassName = "object-
         {audioSrc && (
           <div className="absolute top-6 right-6 z-10 pointer-events-none group-hover:-translate-y-1 transition-all duration-700 ease-out hidden md:block">
             {/* Outer glow ring */}
-            <div className="absolute -inset-3 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{ background: 'radial-gradient(circle, rgba(216,180,160,0.15) 0%, transparent 70%)' }} />
+            <div className="absolute -inset-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{ background: 'radial-gradient(circle, rgba(216,180,160,0.15) 0%, transparent 70%)' }} />
             
-            <div className="relative flex items-center gap-5 rounded-2xl overflow-hidden" style={{ padding: '14px 24px' }}>
+            <div className="relative flex items-center gap-3 rounded-full overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)]" style={{ padding: '8px 14px' }}>
               {/* Glass background */}
-              <div className="absolute inset-0 bg-black/70 backdrop-blur-2xl border border-white/[0.08] rounded-2xl group-hover:border-[#d8b4a0]/30 transition-all duration-500" />
+              <div className="absolute inset-0 bg-black/80 backdrop-blur-3xl border border-[#d8b4a0]/20 rounded-full group-hover:border-[#d8b4a0]/40 transition-all duration-500" />
               
               {/* Pulsing Sound Wave Icon */}
-              <div className="relative w-[42px] h-[42px] flex-shrink-0 flex items-center justify-center">
+              <div className="relative w-[32px] h-[32px] flex-shrink-0 flex items-center justify-center">
                 <div className="absolute inset-0 rounded-full border border-[#d8b4a0]/30 sound-ring sound-ring-3" />
-                <div className="absolute inset-[5px] rounded-full border border-[#d8b4a0]/40 sound-ring sound-ring-2" />
-                <div className="absolute inset-[10px] rounded-full border-[1.5px] border-[#d8b4a0]/60 sound-ring sound-ring-1" />
-                <div className="w-[10px] h-[10px] rounded-full bg-[#d8b4a0] shadow-[0_0_10px_rgba(216,180,160,0.7),0_0_20px_rgba(216,180,160,0.3)] sound-dot" />
+                <div className="absolute inset-[4px] rounded-full border border-[#d8b4a0]/40 sound-ring sound-ring-2" />
+                <div className="absolute inset-[8px] rounded-full border-[1.5px] border-[#d8b4a0]/60 sound-ring sound-ring-1" />
+                <div className="w-[6px] h-[6px] rounded-full bg-[#d8b4a0] shadow-[0_0_10px_rgba(216,180,160,0.7),0_0_20px_rgba(216,180,160,0.3)] sound-dot" />
               </div>
-              
-              {/* Divider line */}
-              <div className="relative w-[1px] h-[28px] bg-gradient-to-b from-transparent via-white/15 to-transparent flex-shrink-0" />
 
-              {/* Right side - text + equalizer */}
-              <div className="relative flex flex-col gap-1.5">
-                <span className="text-[#d8b4a0] text-[10px] font-sans tracking-[0.3em] uppercase font-medium whitespace-nowrap">
-                  This memory has sound
-                </span>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-end gap-[3px] h-[14px]">
-                    <div className="music-bar music-bar-1"></div>
-                    <div className="music-bar music-bar-2"></div>
-                    <div className="music-bar music-bar-3"></div>
-                    <div className="music-bar music-bar-4"></div>
-                  </div>
-                  <span className="text-white/80 group-hover:text-white text-[12px] font-serif italic tracking-wide whitespace-nowrap transition-colors duration-300">
-                    Hover to listen
-                  </span>
+              {/* Equalizer */}
+              <div className="relative flex items-center mr-1">
+                <div className="flex items-end gap-[2px] h-[10px]">
+                  <div className="music-bar music-bar-1" style={{ height: '10px', width: '2px' }}></div>
+                  <div className="music-bar music-bar-2" style={{ height: '10px', width: '2px' }}></div>
+                  <div className="music-bar music-bar-3" style={{ height: '10px', width: '2px' }}></div>
+                  <div className="music-bar music-bar-4" style={{ height: '10px', width: '2px' }}></div>
                 </div>
               </div>
             </div>
