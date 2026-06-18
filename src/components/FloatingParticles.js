@@ -15,33 +15,34 @@ export default function FloatingParticles() {
       gsap.set(p, {
         x: `random(0, ${window.innerWidth})`,
         y: `random(0, ${window.innerHeight + 200})`,
-        opacity: 'random(0.1, 0.4)',
+        opacity: 'random(0.2, 0.6)',
         scale: 'random(0.4, 1.2)'
       });
 
-      // Float upwards slowly
+      // Float upwards a bit faster with more movement
       gsap.to(p, {
-        y: `-=random(300, 600)`,
-        x: `+=random(-80, 80)`,
+        y: `-=random(400, 800)`,
+        x: `+=random(-100, 100)`,
         opacity: 0,
-        duration: 'random(12, 25)',
+        duration: 'random(8, 18)',
         ease: 'none',
         repeat: -1,
-        delay: 'random(0, 5)'
+        delay: 'random(0, 4)'
       });
     });
   }, []);
 
-  // Create an array of 40 particles (mix of dots, stars, and hearts)
-  const particles = Array.from({ length: 40 }).map((_, i) => {
-    const type = i % 4 === 0 ? '🤍' : i % 4 === 1 ? '✨' : '•';
+  // Create an array of 100 particles (mix of dots, stars, hearts, and small balloons)
+  const particles = Array.from({ length: 100 }).map((_, i) => {
+    const type = i % 5 === 0 ? '🤍' : i % 5 === 1 ? '✨' : i % 5 === 2 ? '🎈' : '•';
+    const isBalloon = type === '🎈';
     return (
       <div 
         key={i} 
-        className="particle absolute text-[#d8b4a0] pointer-events-none" 
+        className={`particle absolute pointer-events-none ${isBalloon ? 'opacity-90' : 'text-[#d8b4a0]'}`} 
         style={{ 
-          fontSize: type === '•' ? '24px' : '12px', 
-          textShadow: '0 0 10px rgba(216,180,160,0.4)',
+          fontSize: type === '•' ? '24px' : isBalloon ? '14px' : '16px', 
+          textShadow: isBalloon ? 'none' : '0 0 10px rgba(216,180,160,0.4)',
           willChange: 'transform, opacity'
         }}
       >
