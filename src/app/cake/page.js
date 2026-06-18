@@ -11,14 +11,7 @@ export default function CakePage() {
   const router = useRouter();
   const [isCut, setIsCut] = useState(false);
   const [hasStartedCutting, setHasStartedCutting] = useState(false);
-  const [flavor, setFlavor] = useState('vanilla');
   const [showToast, setShowToast] = useState(false);
-  
-  const FLAVORS = [
-    { id: 'vanilla', label: 'Vanilla Dream', color: '#e8cfc1' },
-    { id: 'chocolate', label: 'Dark Chocolate', color: '#5c3c2d' },
-    { id: 'redVelvet', label: 'Red Velvet', color: '#962839' }
-  ];
 
   useEffect(() => {
     if (!hasStartedCutting && !isCut) {
@@ -100,20 +93,9 @@ export default function CakePage() {
             max-width: 900px;
             margin-bottom: 64px;
           }
-          .flavor-wrap {
-            gap: 20px;
-            margin-top: 24px;
-            margin-bottom: 64px;
-          }
-          .flavor-btn {
-            padding: 12px 24px;
-            font-size: 15px;
-          }
           @media (max-width: 768px) {
             .cake-subtitle { font-size: 24px; }
             .cake-heading { margin-bottom: 32px; letter-spacing: -2px !important; }
-            .flavor-wrap { gap: 12px; margin-bottom: 32px; margin-top: 16px; }
-            .flavor-btn { padding: 10px 18px; font-size: 13px; gap: 8px !important; }
           }
           @media (max-width: 640px) {
             .cake-subtitle { font-size: 20px; }
@@ -123,22 +105,9 @@ export default function CakePage() {
               letter-spacing: -1px !important;
               padding: 0 4px;
             }
-            .flavor-wrap { 
-              gap: 8px; 
-              margin-bottom: 16px; 
-              margin-top: 8px;
-              flex-direction: row;
-              justify-content: center;
-            }
-            .flavor-btn { 
-              padding: 8px 14px; 
-              font-size: 12px; 
-              gap: 6px !important;
-            }
           }
           @media (max-width: 380px) {
             .cake-heading { font-size: clamp(24px, 7vw, 36px) !important; }
-            .flavor-btn { padding: 6px 10px; font-size: 11px; }
           }
         `}</style>
 
@@ -154,36 +123,7 @@ export default function CakePage() {
         </h1>
 
         <div className={`gsap-cake-wrapper flex flex-col items-center transition-opacity duration-1000 ${isCut ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-          <div className="flavor-wrap flex flex-wrap justify-center">
-            {FLAVORS.map(f => {
-              const isSelected = flavor === f.id;
-              return (
-                <button
-                  key={f.id}
-                  onClick={() => setFlavor(f.id)}
-                  className={`flavor-btn group relative flex items-center gap-3 rounded-full font-serif tracking-wider transition-all duration-500 outline-none bg-transparent ${
-                    isSelected 
-                      ? 'text-white' 
-                      : 'text-white/40 hover:text-white/80'
-                  }`}
-                  style={{ 
-                    transform: isSelected ? 'translateY(-4px)' : 'translateY(0)'
-                  }}
-                >
-                  {/* Flavor Color Dot */}
-                  <div 
-                    className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full shadow-inner transition-all duration-500 ${isSelected ? 'scale-125' : 'group-hover:scale-110'}`}
-                    style={{ 
-                      background: f.color,
-                      boxShadow: isSelected ? `0 0 10px ${f.color}` : `0 0 0px transparent`
-                    }}
-                  />
-                  {f.label}
-                </button>
-              );
-            })}
-          </div>
-          <Cake onCutStart={() => setHasStartedCutting(true)} onCutComplete={() => setIsCut(true)} flavor={flavor} />
+          <Cake onCutStart={() => setHasStartedCutting(true)} onCutComplete={() => setIsCut(true)} flavor="vanilla" />
         </div>
       </section>
     </main>
