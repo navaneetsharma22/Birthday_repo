@@ -4,12 +4,16 @@ import Link from 'next/link';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
-const NAV_LINKS = [
+import { SHOW_MEMORIES } from '@/config/settings';
+
+const ALL_NAV_LINKS = [
   { href: '/memories', label: 'Memories' },
   { href: '/letter',   label: 'Letter'   },
   { href: '/cake',     label: 'Cake'     },
   { href: '/final',    label: 'Final'    },
 ];
+
+const NAV_LINKS = ALL_NAV_LINKS.filter(link => link.href !== '/memories' || SHOW_MEMORIES);
 
 export default function Navbar() {
   const navRef = useRef(null);

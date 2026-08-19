@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { useRouter } from 'next/navigation';
 import Toast from '@/components/Toast';
+import { SHOW_MEMORIES } from '@/config/settings';
 
 const PARAGRAPHS = [
   { text: "Happy Birthday! 🎉", type: "emphasis" },
@@ -38,11 +39,12 @@ export default function LetterPage() {
     }
   }, [open]);
 
+
   useEffect(() => {
     if (isTyped) {
-      // Auto redirect to memories 5 seconds after typing is complete
+      // Auto redirect 5 seconds after typing is complete
       const timer = setTimeout(() => {
-        router.push('/memories');
+        router.push(SHOW_MEMORIES ? '/memories' : '/final');
       }, 5000);
       return () => clearTimeout(timer);
     }

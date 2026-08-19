@@ -4,7 +4,9 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import FloatingParticles from '@/components/FloatingParticles';
+import { SHOW_MEMORIES } from '@/config/settings';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -137,6 +139,13 @@ const SectionHeader = ({ title, icon }) => (
 
 export default function MemoriesPage() {
   const container = useRef(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!SHOW_MEMORIES) {
+      router.replace('/');
+    }
+  }, [router]);
 
   // Refresh ScrollTrigger to ensure accurate calculations after images load
   useEffect(() => {
