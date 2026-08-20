@@ -50,18 +50,20 @@ export default function Toast({
     ? 'fixed top-[120px] right-4 left-4 sm:left-auto sm:right-8 z-[100]'
     : 'fixed top-[30px] left-4 right-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 z-[100]';
 
-  const containerClass = `bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.6)] flex items-center gap-3 sm:gap-5 ${
+  const containerClass = `bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_20px_40px_rgba(0,0,0,0.5)] flex items-center gap-2.5 sm:gap-3.5 max-w-[90vw] sm:max-w-md ${
     rounded ? 'rounded-full' : 'rounded-xl'
   } ${
-    size === 'large' ? 'px-6 sm:px-16 py-5 sm:py-8 min-h-[70px] sm:min-h-[100px] justify-center' : 'px-5 sm:px-7 py-3 sm:py-4'
+    size === 'large' 
+      ? 'px-4 sm:px-6 py-2.5 sm:py-3.5 min-h-[46px] sm:min-h-[52px] justify-center' 
+      : 'px-3.5 sm:px-4 py-2 sm:py-2.5 min-h-[38px] sm:min-h-[42px]'
   }`;
 
-  const textClass = `font-serif tracking-wide text-white/95 ${
-    size === 'large' ? 'text-[16px] sm:text-[24px]' : 'text-[14px] sm:text-[18px]'
+  const textClass = `font-serif tracking-wide text-white/95 leading-snug ${
+    size === 'large' ? 'text-[14px] sm:text-[16px]' : 'text-[13px] sm:text-[14px]'
   }`;
 
-  const iconClass = `animate-pulse ${
-    size === 'large' ? 'text-xl sm:text-3xl' : 'text-lg sm:text-xl'
+  const iconClass = `animate-pulse shrink-0 ${
+    size === 'large' ? 'text-lg sm:text-xl' : 'text-base sm:text-lg'
   }`;
 
   return (
