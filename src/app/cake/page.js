@@ -5,6 +5,8 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import Cake from '@/components/Cake';
 import Toast from '@/components/Toast';
+import FloatingHearts from '@/components/FloatingHearts';
+import FloatingParticles from '@/components/FloatingParticles';
 
 export default function CakePage() {
   const container = useRef(null);
@@ -58,6 +60,8 @@ export default function CakePage() {
         background: 'radial-gradient(circle at 50% 30%, #0d0d0d 0%, #020202 70%, #000000 100%)' 
       }}
     >
+      <FloatingParticles />
+      <FloatingHearts count={65} />
       <style>{`
         .cake-page-main {
           padding: 150px 8% 70px;

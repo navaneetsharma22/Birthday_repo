@@ -6,6 +6,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import FloatingParticles from '@/components/FloatingParticles';
+import FloatingHearts from '@/components/FloatingHearts';
 import { SHOW_MEMORIES } from '@/config/settings';
 
 gsap.registerPlugin(ScrollTrigger);
