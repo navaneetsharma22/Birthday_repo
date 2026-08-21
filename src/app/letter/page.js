@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { useRouter } from 'next/navigation';
 import Toast from '@/components/Toast';
+import FloatingHearts from '@/components/FloatingHearts';
 import { SHOW_MEMORIES } from '@/config/settings';
 
 const PARAGRAPHS = [
@@ -145,6 +146,7 @@ export default function LetterPage() {
         background: 'radial-gradient(circle at 50% 30%, #0d0d0d 0%, #020202 70%, #000000 100%)' 
       }}
     >
+      <FloatingHearts count={60} />
       <Toast message="Hey Birthday Girl, Please Open the letter" isVisible={showToast} onClose={() => setShowToast(false)} />
       {/* Subtle warm glow behind the envelope */}
       <div 

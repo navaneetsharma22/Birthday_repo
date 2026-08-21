@@ -4,6 +4,7 @@ import Link from 'next/link';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import FloatingParticles from '@/components/FloatingParticles';
+import FloatingHearts from '@/components/FloatingHearts';
 
 export default function FinalPage() {
   const container = useRef(null);
@@ -64,6 +65,7 @@ export default function FinalPage() {
         }
       `}</style>
       <FloatingParticles />
+      <FloatingHearts count={65} />
 
       {/* Subtle warm glow behind the text */}
       <div 
