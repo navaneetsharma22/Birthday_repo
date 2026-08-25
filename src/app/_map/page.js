@@ -2,6 +2,7 @@
 import { useState, useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import FloatingHearts from '@/components/FloatingHearts';
 
 const SPOTS = [
   {
@@ -105,6 +106,7 @@ export default function MapPage() {
         background: 'radial-gradient(circle at 50% 40%, #1a1a1a 0%, #050505 80%, #000000 100%)' 
       }}
     >
+      <FloatingHearts count={100} />
       {/* Premium Noise Overlay */}
       <div 
         className="absolute inset-0 pointer-events-none opacity-[0.035]"

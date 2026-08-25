@@ -61,7 +61,7 @@ export default function CakePage() {
       }}
     >
       <FloatingParticles />
-      <FloatingHearts count={65} />
+      <FloatingHearts count={120} />
       <style>{`
         .cake-page-main {
           padding: 150px 8% 70px;

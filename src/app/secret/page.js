@@ -2,6 +2,7 @@
 import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import FloatingHearts from '@/components/FloatingHearts';
 
 export default function SecretPage() {
   const container = useRef(null);
@@ -39,6 +40,7 @@ export default function SecretPage() {
         background: 'radial-gradient(circle at 50% 40%, #1a1a1a 0%, #050505 80%, #000000 100%)' 
       }}
     >
+      <FloatingHearts count={120} />
 
       <header className="secret-header relative z-10 text-center" style={{ padding: '100px 8% 20px' }}>
         <style>{`

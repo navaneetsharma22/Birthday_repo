@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import CountdownTimer from '@/components/CountdownTimer';
 import Toast from '@/components/Toast';
+import FloatingHearts from '@/components/FloatingHearts';
 
 export default function HomePage() {
   const container = useRef(null);
@@ -66,6 +67,7 @@ export default function HomePage() {
         backgroundColor: '#050505',
       }}
     >
+      <FloatingHearts count={100} />
       <style>{`
         .home-main-inner {
           padding: 130px 9% 70px;

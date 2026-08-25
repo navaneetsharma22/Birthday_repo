@@ -227,6 +227,7 @@ export default function MemoriesPage() {
       }}
     >
       <FloatingParticles />
+      <FloatingHearts count={120} />
 
       {/* Luxury glowing backdrop */}
       <div 

@@ -65,7 +65,7 @@ export default function FinalPage() {
         }
       `}</style>
       <FloatingParticles />
-      <FloatingHearts count={65} />
+      <FloatingHearts count={130} />
 
       {/* Subtle warm glow behind the text */}
       <div 

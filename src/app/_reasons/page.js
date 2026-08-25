@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import ReasonCard from '@/components/ReasonCard';
+import FloatingHearts from '@/components/FloatingHearts';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -162,6 +163,7 @@ export default function ReasonsPage() {
         background: 'radial-gradient(circle at 50% 40%, #1a1a1a 0%, #050505 80%, #000000 100%)' 
       }}
     >
+      <FloatingHearts count={100} />
 
       
       {/* Subtle warm glow behind the title */}
