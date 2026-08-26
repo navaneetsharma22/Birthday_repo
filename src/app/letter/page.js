@@ -5,6 +5,7 @@ import { useGSAP } from '@gsap/react';
 import { useRouter } from 'next/navigation';
 import Toast from '@/components/Toast';
 import FloatingHearts from '@/components/FloatingHearts';
+import LetterFlowerRain from '@/components/LetterFlowerRain';
 import { SHOW_MEMORIES } from '@/config/settings';
 
 const PARAGRAPHS = [
@@ -74,13 +75,28 @@ export default function LetterPage() {
     );
   }, { scope: container });
 
-  function openEnvelope() {
+  function openEnvelope(e) {
     if (!open) {
       // Small bounce on open
       gsap.fromTo('.gsap-envelope', 
         { scale: 0.95 },
         { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.5)' }
       );
+
+      // Determine envelope position for burst origin
+      let startX = typeof window !== 'undefined' ? window.innerWidth * 0.3 : 300;
+      let startY = typeof window !== 'undefined' ? window.innerHeight * 0.45 : 300;
+
+      if (e && e.currentTarget) {
+        const rect = e.currentTarget.getBoundingClientRect();
+        startX = rect.left + rect.width / 2;
+        startY = rect.top + rect.height * 0.4;
+      }
+
+      // Trigger smooth GPU burst exclusively from inside the envelope slot
+      if (typeof window !== 'undefined' && typeof window.triggerEnvelopeHearts === 'function') {
+        window.triggerEnvelopeHearts(startX, startY);
+      }
     }
     setOpen(true);
     if (started) return;
@@ -214,7 +230,7 @@ export default function LetterPage() {
 
         {/* Letter Paper */}
         <section
-          className="gsap-paper min-h-[730px] rounded-[34px] w-full max-w-[850px] mx-auto"
+          className="gsap-paper relative overflow-hidden min-h-[730px] rounded-[34px] w-full max-w-[850px] mx-auto"
           style={{ 
             padding: '32px 40px',
             background: 'rgba(255, 255, 255, 0.03)',
@@ -224,13 +240,16 @@ export default function LetterPage() {
             boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.02)',
           }}
         >
+          {/* Flower Rain specifically over the letter */}
+          <LetterFlowerRain isActive={open} />
+
           <p 
-            className="font-script text-[#d8b4a0] text-[40px] text-center"
+            className="relative z-10 font-script text-[#d8b4a0] text-[40px] text-center"
             style={{ marginBottom: '24px' }}
           >
             Dear Komal,
           </p>
-          <div className="mx-auto" style={{ width: '90%' }}>
+          <div className="relative z-10 mx-auto" style={{ width: '90%' }}>
             {renderParagraphs()}
           </div>
         </section>

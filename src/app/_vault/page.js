@@ -92,6 +92,9 @@ export default function VaultPage() {
       );
       return;
     }
+    if (typeof window !== 'undefined' && typeof window.triggerCornerHearts === 'function') {
+      window.triggerCornerHearts();
+    }
     setActiveLetter(letter);
   }
 
