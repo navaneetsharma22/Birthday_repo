@@ -106,7 +106,7 @@ export default function VaultPage() {
         background: 'radial-gradient(circle at 50% 40%, #1a1a1a 0%, #050505 80%, #000000 100%)' 
       }}
     >
-      <FloatingHearts count={100} />
+      <FloatingHearts count={30} />
       {/* Subtle warm glow behind the title */}
       <div 
         className="absolute left-1/2 top-[200px] -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] pointer-events-none rounded-full"

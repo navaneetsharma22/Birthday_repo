@@ -12,56 +12,73 @@ export const HEART_MODES = [
   { id: 'magnetic', label: '🧲 Magnetic Flow', desc: 'Hearts attracted to cursor' },
 ];
 
-export default function FloatingHearts({ count = 50, initialMode = 'gentle', showControls = true }) {
+export default function FloatingHearts({ count = 35, initialMode = 'gentle', showControls = false }) {
   const container = useRef(null);
   const [activeMode, setActiveMode] = useState(initialMode);
-  const [isOpen, setIsOpen] = useState(false);
   const mousePos = useRef({ x: typeof window !== 'undefined' ? window.innerWidth / 2 : 500, y: typeof window !== 'undefined' ? window.innerHeight / 2 : 500 });
   const animTweens = useRef([]);
 
-  // Silky smooth, GPU-accelerated burst from inside the envelope center
+  // Listen for mode changes triggered from Navbar
+  useEffect(() => {
+    const handleModeChange = (e) => {
+      if (e.detail) setActiveMode(e.detail);
+    };
+    window.addEventListener('change-heart-mode', handleModeChange);
+    return () => window.removeEventListener('change-heart-mode', handleModeChange);
+  }, []);
+
+  // Eye-catching, large-scale explosion of hearts flying out from inside the envelope center
   const triggerEnvelopeBurst = useCallback((customX, customY) => {
     if (!container.current) return;
-    const heartSymbols = ['❤️', '💖', '💗', '💕', '✨', '🩷', '💓', '🌸'];
+    const heartSymbols = ['❤️', '💖', '💗', '💕', '✨', '🩷', '💓', '💞', '💘', '🤍', '🌸', '🎀', '💌', '🌹', '🦋', '💫', '💎'];
     const startX = customX ?? (typeof window !== 'undefined' ? window.innerWidth * 0.35 : 400);
     const startY = customY ?? (typeof window !== 'undefined' ? window.innerHeight * 0.5 : 400);
 
-    // 18 lightweight particles for buttery smooth 60fps animation without lag
-    const particleCount = 18;
+    const spawnWave = (count, baseDelay, minDistance, maxDistance, minSize, maxSize) => {
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        const symbol = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+        el.innerHTML = symbol;
+        el.className = 'fixed pointer-events-none select-none z-[9999]';
+        el.style.left = `${startX + (Math.random() * 40 - 20)}px`;
+        el.style.top = `${startY + (Math.random() * 20 - 10)}px`;
+        const size = Math.random() * (maxSize - minSize) + minSize;
+        el.style.fontSize = `${size}px`;
+        el.style.filter = 'drop-shadow(0 0 12px rgba(244,114,182,0.85))';
+        el.style.willChange = 'transform, opacity';
+        el.style.transform = 'translateZ(0)';
+        container.current.appendChild(el);
 
-    for (let i = 0; i < particleCount; i++) {
-      const el = document.createElement('div');
-      const symbol = heartSymbols[i % heartSymbols.length];
-      el.innerHTML = symbol;
-      el.className = 'fixed pointer-events-none select-none z-[9999]';
-      el.style.left = `${startX}px`;
-      el.style.top = `${startY}px`;
-      const size = Math.random() * 16 + 14;
-      el.style.fontSize = `${size}px`;
-      el.style.willChange = 'transform, opacity';
-      el.style.transform = 'translateZ(0)';
-      container.current.appendChild(el);
+        const angle = (Math.random() * Math.PI * 0.95) - (Math.PI * 0.975); // Broad upward fan arc (-175deg to -5deg)
+        const distance = Math.random() * (maxDistance - minDistance) + minDistance;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
 
-      const angle = (Math.random() * Math.PI * 0.7) - (Math.PI * 0.85); // Gentle upward arc
-      const distance = Math.random() * 180 + 80;
-      const tx = Math.cos(angle) * distance;
-      const ty = Math.sin(angle) * distance;
+        gsap.fromTo(el,
+          { scale: 0.1, opacity: 1, x: 0, y: 0, rotation: Math.random() * 60 - 30 },
+          {
+            x: tx,
+            y: ty,
+            scale: Math.random() * 0.8 + 0.8,
+            rotation: Math.random() * 360 - 180,
+            opacity: 0,
+            duration: Math.random() * 1.8 + 1.6,
+            ease: 'power2.out',
+            delay: baseDelay + (i * 0.015),
+            onComplete: () => el.remove(),
+          }
+        );
+      }
+    };
 
-      gsap.fromTo(el,
-        { scale: 0.2, opacity: 1, x: 0, y: 0, rotation: 0 },
-        {
-          x: tx,
-          y: ty,
-          scale: Math.random() * 0.6 + 0.8,
-          rotation: Math.random() * 120 - 60,
-          opacity: 0,
-          duration: Math.random() * 1.2 + 1.2,
-          ease: 'power2.out',
-          delay: i * 0.03, // Slight stagger for fluid effect
-          onComplete: () => el.remove(),
-        }
-      );
-    }
+    // Wave 1: Immediate massive burst of 40 hearts
+    spawnWave(40, 0, 160, 420, 22, 44);
+
+    // Wave 2: Secondary wave of 25 hearts at 100ms
+    setTimeout(() => spawnWave(25, 0, 120, 360, 18, 38), 100);
+
+    // Wave 3: Final trailing wave of 20 hearts at 220ms for continuous eye-catching explosion
+    setTimeout(() => spawnWave(20, 0, 90, 280, 16, 32), 220);
   }, []);
 
   // Expose envelope burst trigger globally
@@ -105,8 +122,8 @@ export default function FloatingHearts({ count = 50, initialMode = 'gentle', sho
         gsap.set(h, {
           x: Math.random() * width,
           y: Math.random() * (height + 200),
-          opacity: Math.random() * 0.6 + 0.2,
-          scale: Math.random() * 0.8 + 0.4,
+          opacity: Math.random() * 0.3 + 0.1,
+          scale: Math.random() * 0.4 + 0.3,
           rotation: Math.random() * 90 - 45,
         });
 
@@ -431,71 +448,9 @@ export default function FloatingHearts({ count = 50, initialMode = 'gentle', sho
   });
 
   return (
-    <>
-      {/* Background Hearts Container */}
-      <div ref={container} className="fixed inset-0 pointer-events-none z-[1] overflow-hidden">
-        {hearts}
-      </div>
-
-      {/* Floating Mode Control Panel / Widget */}
-      {showControls && (
-        <div className="heart-controls-widget fixed bottom-5 right-5 z-[999] pointer-events-auto flex flex-col items-end gap-2">
-          {/* Expanded Menu */}
-          {isOpen && (
-            <div className="bg-[#121216]/90 backdrop-blur-md border border-white/15 p-3 rounded-2xl shadow-2xl w-64 text-white flex flex-col gap-2 transition-all animate-fadeIn">
-              <div className="flex items-center justify-between pb-2 border-b border-white/10">
-                <span className="text-xs font-semibold tracking-wider text-white/80 uppercase">Floating Hearts Style</span>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="text-white/50 hover:text-white text-sm"
-                >
-                  ✕
-                </button>
-              </div>
-
-              {/* Mode list */}
-              <div className="flex flex-col gap-1 max-h-56 overflow-y-auto pr-1 custom-scrollbar">
-                {HEART_MODES.map((mode) => (
-                  <button
-                    key={mode.id}
-                    onClick={() => setActiveMode(mode.id)}
-                    className={`flex items-center justify-between text-left p-2 rounded-xl text-xs transition-all ${
-                      activeMode === mode.id
-                        ? 'bg-rose-500/30 text-rose-200 border border-rose-400/40 font-medium'
-                        : 'hover:bg-white/10 text-white/70'
-                    }`}
-                  >
-                    <span>{mode.label}</span>
-                    {activeMode === mode.id && <span className="text-xs">✓</span>}
-                  </button>
-                ))}
-              </div>
-
-              {/* Quick Burst Action */}
-              <button
-                onClick={() => triggerEnvelopeBurst()}
-                className="mt-1 w-full py-2 px-3 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white rounded-xl text-xs font-semibold shadow-lg shadow-pink-500/25 transition-transform active:scale-95 flex items-center justify-center gap-1.5"
-              >
-                <span>💖 Burst Hearts</span>
-              </button>
-            </div>
-          )}
-
-          {/* Toggle Badge */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-2 px-3.5 py-2 bg-[#181820]/80 hover:bg-[#20202c]/90 backdrop-blur-md border border-white/20 text-white text-xs font-medium rounded-full shadow-xl hover:scale-105 transition-all active:scale-95"
-            title="Customize Floating Hearts"
-          >
-            <span className="text-sm">💖</span>
-            <span className="hidden sm:inline">Hearts Mode</span>
-            <span className="text-[10px] bg-pink-500/30 text-pink-300 px-1.5 py-0.5 rounded-full border border-pink-500/40 capitalize">
-              {activeMode}
-            </span>
-          </button>
-        </div>
-      )}
-    </>
+    <div ref={container} className="fixed inset-0 pointer-events-none z-[1] overflow-hidden">
+      {hearts}
+    </div>
   );
 }
 

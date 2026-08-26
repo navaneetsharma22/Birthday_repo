@@ -67,7 +67,7 @@ export default function HomePage() {
         backgroundColor: '#050505',
       }}
     >
-      <FloatingHearts count={100} />
+      <FloatingHearts count={35} />
       <style>{`
         .home-main-inner {
           padding: 130px 9% 70px;
