@@ -254,7 +254,6 @@ export default function ReasonsPage() {
             <ReasonCard
               number={i + 1}
               reason={reason}
-              image={`/assets/${(i % 100) + 1}.jpg`}
             />
           </div>
         ))}

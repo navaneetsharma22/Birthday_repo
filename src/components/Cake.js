@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
@@ -13,6 +13,14 @@ export default function Cake({ onCutComplete, onCutStart, flavor = 'vanilla' }) 
   const [btnText, setBtnText] = useState('Start Cake Cutting 🎂');
   const [disabled, setDisabled] = useState(false);
   const audioRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, []);
 
   const flavorStyles = {
     vanilla: {
@@ -63,6 +71,10 @@ export default function Cake({ onCutComplete, onCutStart, flavor = 'vanilla' }) 
     setDisabled(true);
 
     if (onCutStart) onCutStart();
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('birthday:cake-cut-start'));
+    }
 
     if (audioRef.current) {
       audioRef.current.play().catch(e => console.log('Audio play blocked:', e));

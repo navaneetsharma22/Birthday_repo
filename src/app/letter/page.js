@@ -29,6 +29,7 @@ export default function LetterPage() {
   const [started, setStarted] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [isTyped, setIsTyped] = useState(false);
+  const typingIntervalRef = useRef(null);
 
   useEffect(() => {
     if (!open) {
@@ -41,16 +42,13 @@ export default function LetterPage() {
     }
   }, [open]);
 
-
   useEffect(() => {
-    if (isTyped) {
-      // Auto redirect 5 seconds after typing is complete
-      const timer = setTimeout(() => {
-        router.push(SHOW_MEMORIES ? '/memories' : '/final');
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [isTyped, router]);
+    return () => {
+      if (typingIntervalRef.current) {
+        clearInterval(typingIntervalRef.current);
+      }
+    };
+  }, []);
 
   useGSAP(() => {
     gsap.fromTo('.gsap-envelope', 
@@ -77,13 +75,11 @@ export default function LetterPage() {
 
   function openEnvelope(e) {
     if (!open) {
-      // Small bounce on open
       gsap.fromTo('.gsap-envelope', 
         { scale: 0.95 },
         { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.5)' }
       );
 
-      // Determine envelope position for burst origin
       let startX = typeof window !== 'undefined' ? window.innerWidth * 0.3 : 300;
       let startY = typeof window !== 'undefined' ? window.innerHeight * 0.45 : 300;
 
@@ -93,7 +89,6 @@ export default function LetterPage() {
         startY = rect.top + rect.height * 0.4;
       }
 
-      // Trigger smooth GPU burst exclusively from inside the envelope slot
       if (typeof window !== 'undefined' && typeof window.triggerEnvelopeHearts === 'function') {
         window.triggerEnvelopeHearts(startX, startY);
       }
@@ -103,14 +98,22 @@ export default function LetterPage() {
     setStarted(true);
 
     let i = 0;
-    const id = setInterval(() => {
+    typingIntervalRef.current = setInterval(() => {
       i += 1;
       setTypedLength(i);
       if (i >= totalLength) {
-        clearInterval(id);
+        clearInterval(typingIntervalRef.current);
         setIsTyped(true);
       }
     }, 20);
+  }
+
+  function skipTyping() {
+    if (typingIntervalRef.current) {
+      clearInterval(typingIntervalRef.current);
+    }
+    setTypedLength(totalLength);
+    setIsTyped(true);
   }
 
   const renderParagraphs = () => {
@@ -132,9 +135,6 @@ export default function LetterPage() {
         isItalic = true;
       }
       
-      // Spacing:
-      // - 16px below "Happy Birthday! 🎉" (idx == 0)
-      // - 20px between other paragraphs (idx > 0)
       const marginBottom = idx === 0 ? '16px' : '20px';
       
       return (
@@ -164,6 +164,7 @@ export default function LetterPage() {
     >
       <FloatingHearts count={30} />
       <Toast message="Hey Birthday Girl, Please Open the letter" isVisible={showToast} onClose={() => setShowToast(false)} />
+      
       {/* Subtle warm glow behind the envelope */}
       <div 
         className="absolute left-[30%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] pointer-events-none rounded-full"
@@ -173,20 +174,18 @@ export default function LetterPage() {
         }}
       />
 
-      <div
-        className="letter-grid relative z-10 grid items-center w-full flex-1"
-      >
+      <div className="letter-grid relative z-10 grid items-center w-full flex-1">
         <style>{`
           .letter-grid {
             grid-template-columns: 1fr 1.35fr;
-            padding: 160px 9% 40px;
+            padding: 150px 9% 40px;
             gap: 80px;
           }
           @media (max-width: 768px) {
             .letter-grid {
               grid-template-columns: 1fr;
-              padding: 120px 6% 40px;
-              gap: 40px;
+              padding: 110px 6% 40px;
+              gap: 36px;
             }
             .letter-grid .gsap-envelope {
               justify-self: center;
@@ -194,14 +193,14 @@ export default function LetterPage() {
               width: 100%;
             }
             .letter-grid .gsap-paper {
-              min-height: 500px !important;
+              min-height: 480px !important;
               padding: 24px 20px !important;
             }
           }
           @media (max-width: 640px) {
             .letter-grid {
-              padding: 100px 5% 30px;
-              gap: 30px;
+              padding: 95px 5% 30px;
+              gap: 28px;
             }
             .letter-grid .gsap-envelope {
               max-width: 260px;
@@ -213,6 +212,7 @@ export default function LetterPage() {
             }
           }
         `}</style>
+
         {/* Envelope */}
         <section
           className={`gsap-envelope envelope${open ? ' open' : ''}`}
@@ -230,7 +230,7 @@ export default function LetterPage() {
 
         {/* Letter Paper */}
         <section
-          className="gsap-paper relative overflow-hidden min-h-[730px] rounded-[34px] w-full max-w-[850px] mx-auto"
+          className="gsap-paper relative overflow-hidden min-h-[720px] rounded-[34px] w-full max-w-[850px] mx-auto flex flex-col justify-between"
           style={{ 
             padding: '32px 40px',
             background: 'rgba(255, 255, 255, 0.03)',
@@ -243,15 +243,47 @@ export default function LetterPage() {
           {/* Flower Rain specifically over the letter */}
           <LetterFlowerRain isActive={open} />
 
-          <p 
-            className="relative z-10 font-script text-[#d8b4a0] text-[40px] text-center"
-            style={{ marginBottom: '24px' }}
-          >
-            Dear Komal,
-          </p>
-          <div className="relative z-10 mx-auto" style={{ width: '90%' }}>
-            {renderParagraphs()}
+          <div>
+            <div className="flex items-center justify-between relative z-10 mb-6">
+              <p className="font-script text-[#d8b4a0] text-[36px] sm:text-[42px] m-0">
+                Dear Komal,
+              </p>
+              {open && !isTyped && (
+                <button
+                  onClick={skipTyping}
+                  className="text-xs text-white/50 hover:text-white/90 border border-white/10 px-3 py-1 rounded-full transition-colors font-sans"
+                >
+                  Show all ✦
+                </button>
+              )}
+            </div>
+
+            <div className="relative z-10 mx-auto" style={{ width: '95%' }}>
+              {renderParagraphs()}
+            </div>
           </div>
+
+          {/* User Agency Navigation Button */}
+          {isTyped && (
+            <div className="relative z-20 mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 animate-fadeIn">
+              <p className="text-sm font-script text-[#d8b4a0] text-center sm:text-left">
+                Every word straight from the heart.
+              </p>
+              <button
+                onClick={() => router.push(SHOW_MEMORIES ? '/memories' : '/final')}
+                className="group inline-flex items-center gap-3 px-7 py-3.5 rounded-full font-medium text-sm sm:text-base tracking-wide transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(216, 180, 160, 0.35), rgba(62, 50, 50, 0.8))',
+                  border: '1px solid rgba(216, 180, 160, 0.4)',
+                  boxShadow: '0 10px 30px rgba(216, 180, 160, 0.25)',
+                  color: '#fff',
+                }}
+              >
+                <span>Continue to Celebration</span>
+                <span className="group-hover:translate-x-1.5 transition-transform duration-300">✨</span>
+              </button>
+            </div>
+          )}
         </section>
       </div>
 

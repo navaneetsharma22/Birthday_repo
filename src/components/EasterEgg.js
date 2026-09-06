@@ -29,8 +29,16 @@ export default function EasterEgg() {
       });
     }
 
+    function handleCustomTrigger() {
+      triggerExplosion();
+    }
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('trigger-easter-egg', handleCustomTrigger);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('trigger-easter-egg', handleCustomTrigger);
+    };
   }, [router]);
 
   function triggerExplosion() {

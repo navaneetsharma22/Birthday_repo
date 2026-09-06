@@ -18,6 +18,20 @@ export default function MusicBtn() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleCakeCut = () => {
+      if (audioRef.current && playing) {
+        audioRef.current.pause();
+        setPlaying(false);
+      }
+    };
+
+    window.addEventListener('birthday:cake-cut-start', handleCakeCut);
+    return () => {
+      window.removeEventListener('birthday:cake-cut-start', handleCakeCut);
+    };
+  }, [playing]);
+
   const toggleMusic = () => {
     if (!audioRef.current) return;
     
